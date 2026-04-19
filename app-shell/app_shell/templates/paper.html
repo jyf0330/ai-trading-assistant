@@ -3,28 +3,75 @@
 {% block content %}
 <section class="hero">
   <h2>模拟盘</h2>
-  <p>这一页先展示 <span class="mono">open-paper-trading-mcp</span> 的本地运行状态和接口返回。先保证能读，再继续接规则执行。</p>
+  <p>这一页同时展示两层内容：上游 <span class="mono">open-paper-trading-mcp</span> 服务状态，以及壳层自己的固定规则模拟账户。</p>
 </section>
 <section class="stats-grid">
-  <article class="card stat-card"><h3>FastAPI</h3><p class="stat-value">{{ snapshot.fastapi_health.status_code if snapshot and snapshot.fastapi_health and snapshot.fastapi_health.ok else 'X' }}</p></article>
-  <article class="card stat-card"><h3>Trading API</h3><p class="stat-value">{{ snapshot.trading_health.status_code if snapshot and snapshot.trading_health and snapshot.trading_health.ok else 'X' }}</p></article>
-  <article class="card stat-card"><h3>MCP Root</h3><p class="stat-value">{{ snapshot.mcp_root.status_code if snapshot and snapshot.mcp_root and snapshot.mcp_root.ok else 'X' }}</p></article>
-  <article class="card stat-card"><h3>Portfolio</h3><p class="stat-value">{{ snapshot.portfolio.status_code if snapshot and snapshot.portfolio and snapshot.portfolio.ok else 'X' }}</p></article>
+  <article class="card stat-card"><h3>本地规则净值</h3><p class="stat-value">{{ local_paper.equity }}</p></article>
+  <article class="card stat-card"><h3>本地规则盈亏</h3><p class="stat-value">{{ local_paper.pnl }}</p></article>
+  <article class="card stat-card"><h3>服务 Portfolio</h3><p class="stat-value">{{ snapshot.portfolio.status_code if snapshot and snapshot.portfolio and snapshot.portfolio.ok else 'X' }}</p></article>
+  <article class="card stat-card"><h3>服务账户数</h3><p class="stat-value">{{ accounts_payload.accounts|length if accounts_payload and accounts_payload.accounts else 0 }}</p></article>
+</section>
+<section class="card">
+  <h3>运行固定规则</h3>
+  <p>规则：<span class="mono">10 日均线上穿 50 日均线买入；10 日均线下穿 50 日均线卖出；单笔固定额度。</span></p>
+  <form method="post" action="/paper/strategy-run" class="form-grid">
+    <label>
+      股票代码
+      <input type="text" name="symbol" value="AAPL" required />
+    </label>
+    <label>
+      单笔额度（USD）
+      <input type="number" name="allocation" value="1000" step="100" min="100" required />
+    </label>
+    <div class="form-actions">
+      <button class="button warm" type="submit">运行规则</button>
+    </div>
+  </form>
+  {% if strategy_result %}
+  <div class="result-box {% if strategy_result.action == 'error' %}result-error{% endif %}">
+    <p><strong>{{ strategy_result.symbol }}</strong> / 信号：<span class="mono">{{ strategy_result.signal }}</span> / 动作：<span class="mono">{{ strategy_result.action }}</span></p>
+    {% if strategy_result.price %}<p>价格：{{ strategy_result.price }} | SMA10：{{ strategy_result.sma_fast }} | SMA50：{{ strategy_result.sma_slow }}</p>{% endif %}
+    <p>{{ strategy_result.message }}</p>
+  </div>
+  {% endif %}
 </section>
 <section class="detail-grid">
   <article class="card">
-    <h3>健康状态</h3>
-    <pre>{{ fastapi_payload | tojson(indent=2) if fastapi_payload else snapshot.fastapi_health | tojson(indent=2) }}</pre>
-    <pre>{{ trading_payload | tojson(indent=2) if trading_payload else snapshot.trading_health | tojson(indent=2) }}</pre>
+    <h3>本地规则账户</h3>
+    <p>现金：{{ local_paper.cash }}</p>
+    <p>持仓市值：{{ local_paper.market_value }}</p>
+    <p>更新时间：{{ local_paper.updated_at }}</p>
+    {% if local_paper.positions %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>代码</th><th>数量</th><th>持仓均价</th><th>最新价</th><th>市值</th></tr></thead>
+        <tbody>
+          {% for pos in local_paper.positions %}
+          <tr><td>{{ pos.symbol }}</td><td>{{ pos.quantity }}</td><td>{{ pos.avg_price }}</td><td>{{ pos.last_price }}</td><td>{{ pos.market_value }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>当前本地规则账户还没有持仓。</p>
+    {% endif %}
+    <h4>最近订单</h4>
+    {% if local_paper.orders %}
+    <ul>
+      {% for order in local_paper.orders %}
+      <li><span class="mono">{{ order.timestamp }}</span> {{ order.symbol }} / {{ order.signal }} / {{ order.action }} / {{ order.message }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>当前本地规则账户还没有订单。</p>
+    {% endif %}
   </article>
   <article class="card">
-    <h3>当前持仓/账户读取结果</h3>
+    <h3>Open Paper Trading 服务视图</h3>
     <pre>{{ portfolio_payload | tojson(indent=2) if portfolio_payload else snapshot.portfolio | tojson(indent=2) }}</pre>
-    <p class="hint">如果这里还是 500，说明上游服务已启动，但账户表还没初始化完整。</p>
+    {% if accounts_payload %}
+    <pre>{{ accounts_payload | tojson(indent=2) }}</pre>
+    {% endif %}
   </article>
-</section>
-<section class="card">
-  <h3>上游快照</h3>
-  <p><a href="/vendors/open-paper-trading-mcp">查看 open-paper-trading-mcp 详情</a></p>
 </section>
 {% endblock %}

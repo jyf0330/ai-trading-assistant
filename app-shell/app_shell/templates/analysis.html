@@ -3,17 +3,41 @@
 {% block content %}
 <section class="hero">
   <h2>股票分析</h2>
-  <p>这一页先展示 <span class="mono">TradingAgents</span> 的本地可读状态和运行前置。没有 API Key 时，先优先尝试本地 Ollama 模型。</p>
+  <p>这一页先展示 <span class="mono">TradingAgents</span> 的本地可读状态和运行前置。第一版优先用本地 Ollama 模型生成分析结果。</p>
 </section>
 <section class="stats-grid">
   <article class="card stat-card"><h3>当前状态</h3><p class="stat-value small">{{ snapshot.status if snapshot else 'missing' }}</p></article>
-  <article class="card stat-card"><h3>可用 Key 数</h3><p class="stat-value">{{ enabled_keys|length }}</p></article>
-  <article class="card stat-card"><h3>结果目录</h3><p class="mono small">{{ snapshot.results_dir if snapshot else '' }}</p></article>
+  <article class="card stat-card"><h3>本地模型数</h3><p class="stat-value">{{ ollama_models|length }}</p></article>
+  <article class="card stat-card"><h3>运行结果数</h3><p class="stat-value">{{ analysis_runs|length }}</p></article>
   <article class="card stat-card"><h3>缓存目录</h3><p class="mono small">{{ snapshot.cache_dir if snapshot else '' }}</p></article>
+</section>
+<section class="card">
+  <h3>发起一次简单分析</h3>
+  <form method="post" action="/analysis/run" class="form-grid">
+    <label>
+      股票代码
+      <input type="text" name="symbol" value="AAPL" required />
+    </label>
+    <label>
+      分析日期
+      <input type="date" name="trade_date" value="2026-04-19" required />
+    </label>
+    <div class="form-actions">
+      <button class="button alt" type="submit">运行本地分析</button>
+    </div>
+  </form>
+  {% if run_result %}
+  <div class="result-box {% if run_result.error %}result-error{% endif %}">
+    <p><strong>{{ run_result.symbol }}</strong> @ {{ run_result.trade_date }}</p>
+    <p><span class="mono">{{ run_result.model }}</span></p>
+    <pre>{{ run_result.summary }}</pre>
+    {% if run_result.result_path %}<p class="mono">{{ run_result.result_path }}</p>{% endif %}
+  </div>
+  {% endif %}
 </section>
 <section class="detail-grid">
   <article class="card">
-    <h3>TradingAgents 可运行性</h3>
+    <h3>本地模型可运行性</h3>
     {% if ollama_reachable and ollama_models %}
     <p>已检测到本地 Ollama，可直接作为第一优先模型源。</p>
     <p class="mono">{{ ollama_host }}</p>
@@ -31,13 +55,19 @@
     <p class="hint">详情页：<a href="/vendors/tradingagents">查看 TradingAgents 快照</a></p>
   </article>
   <article class="card">
-    <h3>最近分析结果文件</h3>
-    {% if recent_result_files %}
+    <h3>最近分析结果</h3>
+    {% if analysis_runs %}
     <ul>
-      {% for path in recent_result_files %}<li><span class="mono">{{ path }}</span></li>{% endfor %}
+      {% for run in analysis_runs %}
+      <li>
+        <strong>{{ run.symbol }}</strong>
+        <span class="mono">{{ run.trade_date }}</span>
+        <div>{{ run.summary[:180] }}{% if run.summary|length > 180 %}...{% endif %}</div>
+      </li>
+      {% endfor %}
     </ul>
     {% else %}
-    <p>当前还没有结果文件。</p>
+    <p>当前还没有本地分析结果。</p>
     {% endif %}
   </article>
 </section>
@@ -53,4 +83,3 @@
   {% endif %}
 </section>
 {% endblock %}
-

@@ -10,6 +10,12 @@
     <a class="button warm" href="/paper">进入模拟盘</a>
   </div>
 </section>
+<section class="stats-grid">
+  <article class="card stat-card"><h3>本地规则账户净值</h3><p class="stat-value">{{ local_paper.equity }}</p></article>
+  <article class="card stat-card"><h3>本地规则盈亏</h3><p class="stat-value">{{ local_paper.pnl }}</p></article>
+  <article class="card stat-card"><h3>本地持仓数</h3><p class="stat-value">{{ local_paper.positions_count }}</p></article>
+  <article class="card stat-card"><h3>本地分析结果数</h3><p class="stat-value">{{ analysis_runs_count }}</p></article>
+</section>
 <section class="grid">
   {% for vendor in vendors %}
   {% set snapshot = snapshots.get(vendor) %}
@@ -26,10 +32,10 @@
     <p>交易数：{{ snapshot.stats.trade_count }}，账户数：{{ snapshot.stats.account_count }}，总盈亏：{{ snapshot.stats.total_pnl }}</p>
     {% elif vendor == 'tradingagents' %}
     <p>结果目录：<span class="mono">{{ snapshot.results_dir }}</span></p>
-    <p>已检测 API Key 数：{{ snapshot.env_status.values() | select('equalto', true) | list | length }}</p>
+    <p>已检测本地模型：{{ snapshot.ollama.model_names | length if snapshot.ollama else 0 }}</p>
     {% elif vendor == 'open-paper-trading-mcp' %}
     <p>FastAPI：{{ snapshot.fastapi_health.status_code if snapshot.fastapi_health and snapshot.fastapi_health.ok else 'unreachable' }}</p>
-    <p>MCP：{{ snapshot.mcp_root.status_code if snapshot.mcp_root and snapshot.mcp_root.ok else 'unreachable' }}</p>
+    <p>Portfolio：{{ snapshot.portfolio.status_code if snapshot.portfolio and snapshot.portfolio.ok else 'unreachable' }}</p>
     {% elif vendor == 'vectorbt-lab' %}
     <p>示例文件：{{ snapshot.example_files | length }}，测试文件：{{ snapshot.test_files | length }}</p>
     {% endif %}

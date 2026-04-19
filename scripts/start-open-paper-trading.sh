@@ -64,6 +64,7 @@ python -m pip install "pydantic<2.12" "pydantic-settings<2.12"
 
 python - <<'PY'
 import asyncio
+from app.models.database import trading  # noqa: F401
 from app.storage.database import init_db
 
 asyncio.run(init_db())

@@ -250,6 +250,8 @@ def collect_open_paper() -> dict[str, Any]:
     trading_health = try_get('http://127.0.0.1:2080/api/v1/trading/health')
     mcp_root = try_get('http://127.0.0.1:2081/')
     portfolio = try_get('http://127.0.0.1:2080/api/v1/trading/portfolio')
+    accounts = try_get('http://127.0.0.1:2080/api/v1/trading/accounts')
+    orders = try_get('http://127.0.0.1:2080/api/v1/trading/orders')
     payload = {
         'vendor': 'open-paper-trading-mcp',
         'generated_at': now_iso(),
@@ -259,6 +261,8 @@ def collect_open_paper() -> dict[str, Any]:
         'trading_health': trading_health,
         'mcp_root': mcp_root,
         'portfolio': portfolio,
+        'accounts': accounts,
+        'orders': orders,
         'docker_compose_excerpt': safe_text(repo / 'docker-compose.yml', 2200),
     }
     md = (
@@ -340,3 +344,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+
