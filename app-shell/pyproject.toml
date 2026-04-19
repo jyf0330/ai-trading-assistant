@@ -15,6 +15,7 @@ dependencies = [
   "httpx>=0.28.0",
   "yfinance>=0.2.63",
   "python-multipart>=0.0.20",
+  "akshare>=1.18.40",
 ]
 
 [project.scripts]

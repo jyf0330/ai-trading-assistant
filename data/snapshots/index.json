@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-19T14:52:55.101764+00:00",
+  "generated_at": "2026-04-19T15:45:42.695411+00:00",
   "vendors": {
     "journedge": {
       "vendor": "journedge",
-      "generated_at": "2026-04-19T14:52:53.956573+00:00",
+      "generated_at": "2026-04-19T15:45:42.280631+00:00",
       "repo": {
         "exists": true,
         "path": "/home/ywh/projects/ai-trading-assistant/vendors/journedge",
@@ -30,7 +30,7 @@
     },
     "tradingagents": {
       "vendor": "tradingagents",
-      "generated_at": "2026-04-19T14:52:54.586512+00:00",
+      "generated_at": "2026-04-19T15:45:42.488649+00:00",
       "repo": {
         "exists": true,
         "path": "/home/ywh/projects/ai-trading-assistant/vendors/tradingagents",
@@ -121,7 +121,7 @@
     },
     "open-paper-trading-mcp": {
       "vendor": "open-paper-trading-mcp",
-      "generated_at": "2026-04-19T14:52:55.083043+00:00",
+      "generated_at": "2026-04-19T15:45:42.687466+00:00",
       "repo": {
         "exists": true,
         "path": "/home/ywh/projects/ai-trading-assistant/vendors/open-paper-trading-mcp",
@@ -166,7 +166,7 @@
     },
     "vectorbt-lab": {
       "vendor": "vectorbt-lab",
-      "generated_at": "2026-04-19T14:52:55.101530+00:00",
+      "generated_at": "2026-04-19T15:45:42.695004+00:00",
       "repo": {
         "exists": true,
         "path": "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab",

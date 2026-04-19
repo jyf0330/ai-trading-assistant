@@ -4,6 +4,7 @@ import io
 import json
 import math
 import random
+import re
 import subprocess
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -17,6 +18,7 @@ from .config import ROOT
 LOCAL_DATA_DIR = ROOT / "data" / "shell"
 LOCAL_PAPER_PATH = LOCAL_DATA_DIR / "paper_account.json"
 ANALYSIS_RUNS_DIR = ROOT / "data" / "snapshots" / "tradingagents" / "runs"
+A_SHARE_PATTERN = re.compile(r"^(\d{6})(?:\.(SH|SZ|BJ))?$", re.IGNORECASE)
 
 
 def _now_iso() -> str:
@@ -26,6 +28,26 @@ def _now_iso() -> str:
 def _ensure_dirs() -> None:
     LOCAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
     ANALYSIS_RUNS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def normalize_symbol(symbol: str) -> str:
+    raw = symbol.strip().upper()
+    match = A_SHARE_PATTERN.fullmatch(raw)
+    if not match:
+        return raw
+    code, suffix = match.groups()
+    if suffix:
+        return f"{code}.{suffix}"
+    if code.startswith(("5", "6", "9")):
+        return f"{code}.SH"
+    if code.startswith(("0", "1", "2", "3")):
+        return f"{code}.SZ"
+    return raw
+
+
+def is_a_share_symbol(symbol: str) -> bool:
+    normalized = normalize_symbol(symbol)
+    return normalized.endswith(".SH") or normalized.endswith(".SZ") or normalized.endswith(".BJ")
 
 
 def load_local_paper_account() -> dict[str, Any]:
@@ -62,6 +84,23 @@ def list_analysis_runs(limit: int = 10) -> list[dict[str, Any]]:
     return runs
 
 
+def _fetch_akshare_history(symbol: str) -> list[dict[str, Any]]:
+    import akshare as ak
+    import pandas as pd
+
+    normalized = normalize_symbol(symbol)
+    code = normalized.split(".")[0]
+    end_date = datetime.now().strftime("%Y%m%d")
+    start_date = (datetime.now() - timedelta(days=365)).strftime("%Y%m%d")
+    df = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=start_date, end_date=end_date, adjust="")
+    if df.empty:
+        raise ValueError(f"AKShare 未返回 {normalized} 的历史数据")
+    date_col = "日期" if "日期" in df.columns else df.columns[0]
+    close_col = "收盘" if "收盘" in df.columns else "close"
+    df[date_col] = pd.to_datetime(df[date_col])
+    return [{"Date": row[date_col].date().isoformat(), "Close": float(row[close_col])} for _, row in df.iterrows()]
+
+
 def _fetch_stooq_history(symbol: str) -> list[dict[str, Any]]:
     import pandas as pd
 
@@ -80,7 +119,7 @@ def _fetch_stooq_history(symbol: str) -> list[dict[str, Any]]:
 
 
 def _generate_synthetic_history(symbol: str, days: int = 160) -> list[dict[str, Any]]:
-    seed = sum(ord(ch) for ch in symbol.upper())
+    seed = sum(ord(ch) for ch in normalize_symbol(symbol))
     rng = random.Random(seed)
     base = 80 + (seed % 120)
     today = datetime.now(timezone.utc)
@@ -96,25 +135,37 @@ def _generate_synthetic_history(symbol: str, days: int = 160) -> list[dict[str, 
 
 
 def latest_price(symbol: str, period: str = "6mo") -> tuple[float, list[dict[str, Any]], str]:
+    normalized = normalize_symbol(symbol)
+    if is_a_share_symbol(normalized):
+        try:
+            records = _fetch_akshare_history(normalized)
+            if len(records) < 60:
+                raise ValueError(f"{normalized} 的历史数据不足，无法计算均线")
+            return float(records[-1]["Close"]), records, "akshare"
+        except Exception:
+            records = _generate_synthetic_history(normalized)
+            return float(records[-1]["Close"]), records, "synthetic"
+
     try:
-        history = yf.Ticker(symbol).history(period=period, interval="1d", auto_adjust=False)
+        history = yf.Ticker(normalized).history(period=period, interval="1d", auto_adjust=False)
         if history.empty or len(history) < 60:
             raise ValueError("not enough yfinance history")
         records = history.reset_index().to_dict(orient="records")
         return float(history["Close"].iloc[-1]), records, "yfinance"
     except Exception:
         try:
-            records = _fetch_stooq_history(symbol)
+            records = _fetch_stooq_history(normalized)
             if len(records) < 60:
-                raise ValueError(f"{symbol} 的历史数据不足，无法计算 10/50 均线")
+                raise ValueError(f"{normalized} 的历史数据不足，无法计算 10/50 均线")
             return float(records[-1]["Close"]), records, "stooq"
         except Exception:
-            records = _generate_synthetic_history(symbol)
+            records = _generate_synthetic_history(normalized)
             return float(records[-1]["Close"]), records, "synthetic"
 
 
 def compute_ma_signal(symbol: str) -> dict[str, Any]:
-    _, records, source = latest_price(symbol)
+    normalized = normalize_symbol(symbol)
+    _, records, source = latest_price(normalized)
     import pandas as pd
 
     df = pd.DataFrame(records)
@@ -130,7 +181,7 @@ def compute_ma_signal(symbol: str) -> dict[str, Any]:
         signal = "death_cross"
 
     return {
-        "symbol": symbol.upper(),
+        "symbol": normalized,
         "signal": signal,
         "price": round(float(curr["Close"]), 4),
         "sma_fast": round(float(curr["sma_fast"]), 4),
@@ -231,9 +282,10 @@ def run_ma_strategy(symbol: str, allocation: float = 1000.0) -> dict[str, Any]:
 
 def run_tradingagents_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
     _ensure_dirs()
+    normalized = normalize_symbol(symbol)
     cmd = [
         "/home/ywh/projects/ai-trading-assistant/scripts/run-tradingagents-local.sh",
-        symbol.upper(),
+        normalized,
         trade_date,
     ]
     result = subprocess.run(
@@ -251,7 +303,7 @@ def run_tradingagents_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
     result_path = stdout_lines[0] if stdout_lines else ""
     summary = "\n".join(stdout_lines[1:]).strip() or "TradingAgents run completed."
     return {
-        "symbol": symbol.upper(),
+        "symbol": normalized,
         "trade_date": trade_date,
         "summary": summary,
         "model": "qwen3.6:35b-a3b-q4_K_M",
