@@ -60,9 +60,9 @@
     <ul>
       {% for run in analysis_runs %}
       <li>
-        <strong>{{ run.symbol }}</strong>
-        <span class="mono">{{ run.trade_date }}</span>
-        <div>{{ run.summary[:180] }}{% if run.summary|length > 180 %}...{% endif %}</div>
+        <strong>{{ run["symbol"] }}</strong>
+        <span class="mono">{{ run["trade_date"] }}</span>
+        <div>{{ run["summary"][:180] }}{% if run["summary"]|length > 180 %}...{% endif %}</div>
       </li>
       {% endfor %}
     </ul>
@@ -83,3 +83,4 @@
   {% endif %}
 </section>
 {% endblock %}
+
