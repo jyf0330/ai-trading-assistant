@@ -63,6 +63,52 @@ def write_snapshot(vendor: str, payload: dict[str, Any], markdown: str) -> None:
     (target_dir / 'latest.md').write_text(markdown, encoding='utf-8')
 
 
+def discover_ollama() -> dict[str, Any]:
+    candidates: list[str] = []
+    env_host = os.getenv('OLLAMA_HOST')
+    if env_host:
+        candidates.append(env_host.rstrip('/'))
+    candidates.extend(['http://127.0.0.1:11434'])
+    try:
+        route = subprocess.run(
+            ['bash', '-lc', "ip route | awk '/default/ {print $3}' | head -n 1"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=True,
+        )
+        gateway = route.stdout.strip()
+        if gateway:
+            candidates.append(f'http://{gateway}:11434')
+    except Exception:
+        gateway = None
+
+    checked = []
+    for host in candidates:
+        if host in checked:
+            continue
+        checked.append(host)
+        try:
+            with httpx.Client(timeout=3.0) as client:
+                response = client.get(f'{host}/api/tags')
+                data = response.json()
+                models = data.get('models', [])
+                return {
+                    'reachable': True,
+                    'host': host,
+                    'models': models,
+                    'model_names': [item.get('name') for item in models],
+                }
+        except Exception:
+            continue
+    return {
+        'reachable': False,
+        'host': checked[0] if checked else None,
+        'models': [],
+        'model_names': [],
+    }
+
+
 def collect_journedge() -> dict[str, Any]:
     repo = VENDOR_PATHS['journedge']
     meta = repo_metadata(repo)
@@ -149,16 +195,23 @@ def collect_tradingagents() -> dict[str, Any]:
         if results_dir.exists()
         else []
     )
+    ollama = discover_ollama()
+    status = 'blocked_no_key'
+    if ollama['reachable'] and ollama['model_names']:
+        status = 'ready_local_model'
+    elif any(env_status.values()):
+        status = 'ready_remote_model'
     payload = {
         'vendor': 'tradingagents',
         'generated_at': now_iso(),
         'repo': meta,
-        'status': 'ready' if any(env_status.values()) else 'blocked_no_key',
+        'status': status,
         'env_status': env_status,
         'results_dir': str(results_dir),
         'cache_dir': str(cache_dir),
         'recent_result_files': [str(p) for p in log_files[:10]],
         'default_config_excerpt': safe_text(repo / 'tradingagents' / 'default_config.py', 2500),
+        'ollama': ollama,
     }
     md = (
         '# TradingAgents Snapshot\n\n'
@@ -167,7 +220,10 @@ def collect_tradingagents() -> dict[str, Any]:
         f"- Git: {meta['git_head']}\n"
         f"- Status: {payload['status']}\n"
         f"- Results dir: {payload['results_dir']}\n"
-        f"- Cache dir: {payload['cache_dir']}\n\n"
+        f"- Cache dir: {payload['cache_dir']}\n"
+        f"- Ollama reachable: {ollama['reachable']}\n"
+        f"- Ollama host: {ollama['host']}\n"
+        f"- Ollama models: {', '.join(ollama['model_names']) if ollama['model_names'] else 'none'}\n\n"
         '## API keys detected\n' + '\n'.join(f"- {k}: {'yes' if v else 'no'}" for k, v in env_status.items())
     )
     write_snapshot('tradingagents', payload, md)

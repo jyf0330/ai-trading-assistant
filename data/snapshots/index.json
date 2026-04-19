@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-19T11:45:37.916051+00:00",
+  "generated_at": "2026-04-19T14:37:38.947513+00:00",
   "vendors": {
     "journedge": {
       "vendor": "journedge",
-      "generated_at": "2026-04-19T11:45:36.871593+00:00",
+      "generated_at": "2026-04-19T14:37:37.764910+00:00",
       "repo": {
         "exists": true,
         "path": "/home/ywh/projects/ai-trading-assistant/vendors/journedge",
@@ -30,7 +30,7 @@
     },
     "tradingagents": {
       "vendor": "tradingagents",
-      "generated_at": "2026-04-19T11:45:37.431770+00:00",
+      "generated_at": "2026-04-19T14:37:38.414333+00:00",
       "repo": {
         "exists": true,
         "path": "/home/ywh/projects/ai-trading-assistant/vendors/tradingagents",
@@ -40,7 +40,7 @@
         "readme_path": "/home/ywh/projects/ai-trading-assistant/vendors/tradingagents/README.md",
         "readme_excerpt": "<p align=\"center\">\n  <img src=\"assets/TauricResearch.png\" style=\"width: 60%; height: auto;\">\n</p>\n\n<div align=\"center\" style=\"line-height: 1;\">\n  <a href=\"https://arxiv.org/abs/2412.20138\" target=\"_blank\"><img alt=\"arXiv\" src=\"https://img.shields.io/badge/arXiv-2412.20138-B31B1B?logo=arxiv\"/></a>\n  <a href=\"https://discord.com/invite/hk9PGKShPK\" target=\"_blank\"><img alt=\"Discord\" src=\"https://img.shields.io/badge/Discord-TradingResearch-7289da?logo=discord&logoColor=white&color=7289da\"/></a>\n  <a href=\"./assets/wechat.png\" target=\"_blank\"><img alt=\"WeChat\" src=\"https://img.shields.io/badge/WeChat-TauricResearch-brightgreen?logo=wechat&logoColor=white\"/></a>\n  <a href=\"https://x.com/TauricResearch\" target=\"_blank\"><img alt=\"X Follow\" src=\"https://img.shields.io/badge/X-TauricResearch-white?logo=x&logoColor=white\"/></a>\n  <br>\n  <a href=\"https://github.com/TauricResearch/\" target=\"_blank\"><img alt=\"Community\" src=\"https://img.shields.io/badge/Join_GitHub_Community-TauricResearch-14C290?logo=discourse\"/></a>\n</div>\n\n<div align=\"center\">\n  <!-- Keep these links. Translations will automatically update with the README. -->\n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=de\">Deutsch</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=es\">Español</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=fr\">français</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=ja\">日本語</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=ko\">한국어</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=pt\">Português</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=ru\">Русский</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=zh\">中文</a>\n</div>\n\n---\n\n# TradingAgents: Multi-Agents LLM Financial Trading Framework\n\n## News\n- [2026-03] **TradingAgents v0.2.3** released with multi-language support, GPT-5.4 family models, unified model catalog, backtesting date fidelity, and proxy support.\n- [2026-03] **TradingAgents v0.2.2** released with GPT-5.4/Gemini 3.1/Claude 4.6 model coverage, five-tier rating scale, OpenAI Responses API, Anthropic effort control, and cross-platform stability.\n- [2026-02] **TradingAgents v0.2.0** released with multi-provider LLM support (GPT-5.x, Gemini 3.x, Claude 4.x, Grok 4.x) and improved system architecture.\n- [2026-01] **Trading-R1** [Technica"
       },
-      "status": "blocked_no_key",
+      "status": "ready_local_model",
       "env_status": {
         "OPENAI_API_KEY": false,
         "GOOGLE_API_KEY": false,
@@ -55,11 +55,73 @@
       "results_dir": "/home/ywh/.tradingagents/logs",
       "cache_dir": "/home/ywh/.tradingagents/cache",
       "recent_result_files": [],
-      "default_config_excerpt": "import os\n\n_TRADINGAGENTS_HOME = os.path.join(os.path.expanduser(\"~\"), \".tradingagents\")\n\nDEFAULT_CONFIG = {\n    \"project_dir\": os.path.abspath(os.path.join(os.path.dirname(__file__), \".\")),\n    \"results_dir\": os.getenv(\"TRADINGAGENTS_RESULTS_DIR\", os.path.join(_TRADINGAGENTS_HOME, \"logs\")),\n    \"data_cache_dir\": os.getenv(\"TRADINGAGENTS_CACHE_DIR\", os.path.join(_TRADINGAGENTS_HOME, \"cache\")),\n    # LLM settings\n    \"llm_provider\": \"openai\",\n    \"deep_think_llm\": \"gpt-5.4\",\n    \"quick_think_llm\": \"gpt-5.4-mini\",\n    \"backend_url\": \"https://api.openai.com/v1\",\n    # Provider-specific thinking configuration\n    \"google_thinking_level\": None,      # \"high\", \"minimal\", etc.\n    \"openai_reasoning_effort\": None,    # \"medium\", \"high\", \"low\"\n    \"anthropic_effort\": None,           # \"high\", \"medium\", \"low\"\n    # Output language for analyst reports and final decision\n    # Internal agent debate stays in English for reasoning quality\n    \"output_language\": \"English\",\n    # Debate and discussion settings\n    \"max_debate_rounds\": 1,\n    \"max_risk_discuss_rounds\": 1,\n    \"max_recur_limit\": 100,\n    # Data vendor configuration\n    # Category-level configuration (default for all tools in category)\n    \"data_vendors\": {\n        \"core_stock_apis\": \"yfinance\",       # Options: alpha_vantage, yfinance\n        \"technical_indicators\": \"yfinance\",  # Options: alpha_vantage, yfinance\n        \"fundamental_data\": \"yfinance\",      # Options: alpha_vantage, yfinance\n        \"news_data\": \"yfinance\",             # Options: alpha_vantage, yfinance\n    },\n    # Tool-level configuration (takes precedence over category-level)\n    \"tool_vendors\": {\n        # Example: \"get_stock_data\": \"alpha_vantage\",  # Override category default\n    },\n}\n"
+      "default_config_excerpt": "import os\n\n_TRADINGAGENTS_HOME = os.path.join(os.path.expanduser(\"~\"), \".tradingagents\")\n\nDEFAULT_CONFIG = {\n    \"project_dir\": os.path.abspath(os.path.join(os.path.dirname(__file__), \".\")),\n    \"results_dir\": os.getenv(\"TRADINGAGENTS_RESULTS_DIR\", os.path.join(_TRADINGAGENTS_HOME, \"logs\")),\n    \"data_cache_dir\": os.getenv(\"TRADINGAGENTS_CACHE_DIR\", os.path.join(_TRADINGAGENTS_HOME, \"cache\")),\n    # LLM settings\n    \"llm_provider\": \"openai\",\n    \"deep_think_llm\": \"gpt-5.4\",\n    \"quick_think_llm\": \"gpt-5.4-mini\",\n    \"backend_url\": \"https://api.openai.com/v1\",\n    # Provider-specific thinking configuration\n    \"google_thinking_level\": None,      # \"high\", \"minimal\", etc.\n    \"openai_reasoning_effort\": None,    # \"medium\", \"high\", \"low\"\n    \"anthropic_effort\": None,           # \"high\", \"medium\", \"low\"\n    # Output language for analyst reports and final decision\n    # Internal agent debate stays in English for reasoning quality\n    \"output_language\": \"English\",\n    # Debate and discussion settings\n    \"max_debate_rounds\": 1,\n    \"max_risk_discuss_rounds\": 1,\n    \"max_recur_limit\": 100,\n    # Data vendor configuration\n    # Category-level configuration (default for all tools in category)\n    \"data_vendors\": {\n        \"core_stock_apis\": \"yfinance\",       # Options: alpha_vantage, yfinance\n        \"technical_indicators\": \"yfinance\",  # Options: alpha_vantage, yfinance\n        \"fundamental_data\": \"yfinance\",      # Options: alpha_vantage, yfinance\n        \"news_data\": \"yfinance\",             # Options: alpha_vantage, yfinance\n    },\n    # Tool-level configuration (takes precedence over category-level)\n    \"tool_vendors\": {\n        # Example: \"get_stock_data\": \"alpha_vantage\",  # Override category default\n    },\n}\n",
+      "ollama": {
+        "reachable": true,
+        "host": "http://127.0.0.1:11434",
+        "models": [
+          {
+            "name": "qwen3.6:35b-a3b-q4_K_M",
+            "model": "qwen3.6:35b-a3b-q4_K_M",
+            "modified_at": "2026-04-19T16:11:18.2167259+08:00",
+            "size": 23938333577,
+            "digest": "07d35212591fc27746f0a317c975a6d68754fb38e9053d82e25f06057af28522",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "qwen35moe",
+              "families": [
+                "qwen35moe"
+              ],
+              "parameter_size": "36.0B",
+              "quantization_level": "Q4_K_M"
+            }
+          },
+          {
+            "name": "qw-14b:latest",
+            "model": "qw-14b:latest",
+            "modified_at": "2026-04-13T16:00:26.1410513+08:00",
+            "size": 8988111050,
+            "digest": "0fe45b10150f70bdeea0386d7a6f019a5aa8d19395f88c80d18ac6247640d498",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "qwen2",
+              "families": [
+                "qwen2"
+              ],
+              "parameter_size": "14.8B",
+              "quantization_level": "Q4_K_M"
+            }
+          },
+          {
+            "name": "deepcoder-14b:latest",
+            "model": "deepcoder-14b:latest",
+            "modified_at": "2026-04-13T11:08:06.6963948+08:00",
+            "size": 8573432682,
+            "digest": "f4b394a7cf5ea16efd8b3b819678d27871f6f381803d75782ed977a43c2818b7",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "qwen2",
+              "families": [
+                "qwen2"
+              ],
+              "parameter_size": "14.8B",
+              "quantization_level": "Q4_K_S"
+            }
+          }
+        ],
+        "model_names": [
+          "qwen3.6:35b-a3b-q4_K_M",
+          "qw-14b:latest",
+          "deepcoder-14b:latest"
+        ]
+      }
     },
     "open-paper-trading-mcp": {
       "vendor": "open-paper-trading-mcp",
-      "generated_at": "2026-04-19T11:45:37.900382+00:00",
+      "generated_at": "2026-04-19T14:37:38.929481+00:00",
       "repo": {
         "exists": true,
         "path": "/home/ywh/projects/ai-trading-assistant/vendors/open-paper-trading-mcp",
@@ -94,7 +156,7 @@
     },
     "vectorbt-lab": {
       "vendor": "vectorbt-lab",
-      "generated_at": "2026-04-19T11:45:37.915810+00:00",
+      "generated_at": "2026-04-19T14:37:38.947251+00:00",
       "repo": {
         "exists": true,
         "path": "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab",

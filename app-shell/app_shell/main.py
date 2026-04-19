@@ -83,6 +83,7 @@ def analysis(request: Request) -> HTMLResponse:
     vectorbt_snapshot = load_snapshot('vectorbt-lab') or {}
     env_status = snapshot.get('env_status', {})
     enabled_keys = [key for key, enabled in env_status.items() if enabled]
+    ollama = snapshot.get('ollama', {})
     return templates.TemplateResponse(
         request,
         'analysis.html',
@@ -92,6 +93,10 @@ def analysis(request: Request) -> HTMLResponse:
             'recent_result_files': compact_paths(snapshot.get('recent_result_files', [])),
             'vectorbt_snapshot': vectorbt_snapshot,
             'example_files': compact_paths(vectorbt_snapshot.get('example_files', [])),
+            'ollama': ollama,
+            'ollama_models': ollama.get('model_names') or [item.get('name') for item in ollama.get('models', []) if item.get('name')],
+            'ollama_host': ollama.get('host'),
+            'ollama_reachable': ollama.get('reachable', False),
         },
     )
 
@@ -157,3 +162,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+

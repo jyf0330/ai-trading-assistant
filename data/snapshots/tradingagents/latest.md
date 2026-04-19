@@ -1,11 +1,14 @@
 # TradingAgents Snapshot
 
-- Generated: 2026-04-19T11:45:37.431770+00:00
+- Generated: 2026-04-19T14:37:38.414333+00:00
 - Repo: /home/ywh/projects/ai-trading-assistant/vendors/tradingagents
 - Git: fa4d01c
-- Status: blocked_no_key
+- Status: ready_local_model
 - Results dir: /home/ywh/.tradingagents/logs
 - Cache dir: /home/ywh/.tradingagents/cache
+- Ollama reachable: True
+- Ollama host: http://127.0.0.1:11434
+- Ollama models: qwen3.6:35b-a3b-q4_K_M, qw-14b:latest, deepcoder-14b:latest
 
 ## API keys detected
 - OPENAI_API_KEY: no

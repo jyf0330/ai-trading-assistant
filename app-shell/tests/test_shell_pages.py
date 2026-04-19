@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
@@ -26,6 +27,26 @@ class ShellPagesTest(unittest.TestCase):
         response = self.client.get('/analysis')
         self.assertEqual(response.status_code, 200)
         self.assertIn('股票分析', response.text)
+
+    def test_analysis_page_shows_local_ollama_model(self) -> None:
+        tradingagents_snapshot = {
+            'status': 'ready_local_model',
+            'ollama': {
+                'reachable': True,
+                'host': 'http://172.26.208.1:11434',
+                'models': [{'name': 'qwen3.6:35b-a3b-q4_K_M'}],
+            },
+            'recent_result_files': [],
+            'results_dir': '/tmp/results',
+            'cache_dir': '/tmp/cache',
+            'env_status': {},
+        }
+        vectorbt_snapshot = {'example_files': []}
+        with patch('app_shell.main.load_snapshot', side_effect=[tradingagents_snapshot, vectorbt_snapshot]):
+            response = self.client.get('/analysis')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('qwen3.6:35b-a3b-q4_K_M', response.text)
+        self.assertIn('172.26.208.1:11434', response.text)
 
     def test_paper_page_renders(self) -> None:
         response = self.client.get('/paper')
