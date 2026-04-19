@@ -17,6 +17,7 @@ from .local_ops import (
     local_paper_summary,
     run_ma_strategy,
     run_tradingagents_analysis,
+    run_a_share_analysis,
 )
 
 app = FastAPI(title='AI Trading Assistant Shell', version='0.1.0')
@@ -138,7 +139,11 @@ def analysis_run(
 ) -> HTMLResponse:
     context = build_analysis_context()
     try:
-        context['run_result'] = run_tradingagents_analysis(symbol, trade_date)
+        from .local_ops import is_a_share_symbol, normalize_symbol
+        if is_a_share_symbol(symbol):
+            context['run_result'] = run_a_share_analysis(normalize_symbol(symbol), trade_date)
+        else:
+            context['run_result'] = run_tradingagents_analysis(symbol, trade_date)
     except Exception as exc:
         context['run_result'] = {
             'symbol': symbol.upper(),
@@ -224,3 +229,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+

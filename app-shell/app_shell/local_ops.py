@@ -77,10 +77,16 @@ def list_analysis_runs(limit: int = 10) -> list[dict[str, Any]]:
     for path in sorted(ANALYSIS_RUNS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)[:limit]:
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
-            data["path"] = str(path)
-            runs.append(data)
+            normalized = {
+                "symbol": data.get("symbol") or data.get("ticker") or path.stem,
+                "trade_date": data.get("trade_date") or data.get("date") or "",
+                "summary": data.get("summary") or data.get("decision") or "No summary",
+                "model": data.get("model"),
+                "path": str(path),
+            }
+            runs.append(normalized)
         except Exception:
-            runs.append({"path": str(path), "summary": "Failed to parse analysis output"})
+            runs.append({"symbol": path.stem, "trade_date": "", "summary": "Failed to parse analysis output", "path": str(path)})
     return runs
 
 
@@ -309,3 +315,115 @@ def run_tradingagents_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
         "model": "qwen3.6:35b-a3b-q4_K_M",
         "result_path": result_path,
     }
+
+
+def _heuristic_a_share_summary(signal: dict[str, Any]) -> str:
+    direction = {
+        "golden_cross": "偏多",
+        "death_cross": "偏空",
+        "hold": "中性",
+    }.get(signal["signal"], "中性")
+    return (
+        f"A股本地分析：{direction}。\n"
+        f"标的 {signal['symbol']} 当前价格 {signal['price']}，"
+        f"SMA10 为 {signal['sma_fast']}，SMA50 为 {signal['sma_slow']}。\n"
+        f"当前信号为 {signal['signal']}，数据来源为 {signal['data_source']}。\n"
+        "该结论仅用于本地研究与模拟盘参考，不构成投资建议。"
+    )
+
+
+def _ollama_text_summary(prompt: str, model_name: str = "qwen3.6:35b-a3b-q4_K_M") -> str:
+    with httpx.Client(timeout=180.0) as client:
+        response = client.post(
+            "http://127.0.0.1:11434/v1/chat/completions",
+            json={
+                "model": model_name,
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": (
+                            "你是一个谨慎的A股研究助手。"
+                            "请用中文输出简短分析，包含：趋势判断、技术面解读、风险提示。"
+                            "不要承诺收益，不要给出实盘建议。"
+                        ),
+                    },
+                    {"role": "user", "content": prompt},
+                ],
+                "temperature": 0.2,
+                "max_tokens": 220,
+            },
+        )
+        response.raise_for_status()
+        data = response.json()
+        choice = data["choices"][0]["message"]
+        content = (choice.get("content") or "").strip()
+        reasoning = (choice.get("reasoning") or "").strip()
+        return content or reasoning or ""
+
+
+def run_a_share_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
+    _ensure_dirs()
+    normalized = normalize_symbol(symbol)
+    signal = compute_ma_signal(normalized)
+    model_name = "qwen3.6:35b-a3b-q4_K_M"
+    prompt = (
+        f"请分析A股标的 {normalized}。\n"
+        f"分析日期：{trade_date}\n"
+        f"当前价格：{signal['price']}\n"
+        f"SMA10：{signal['sma_fast']}\n"
+        f"SMA50：{signal['sma_slow']}\n"
+        f"交叉信号：{signal['signal']}\n"
+        f"数据来源：{signal['data_source']}\n"
+        "请输出一段简洁中文分析，最后给出 偏多 / 中性 / 偏空 之一。"
+    )
+
+    try:
+        summary = _ollama_text_summary(prompt, model_name=model_name)
+        if not summary:
+            raise RuntimeError("empty ollama summary")
+    except Exception:
+        summary = _heuristic_a_share_summary(signal)
+
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    base = ANALYSIS_RUNS_DIR / f"{stamp}-{normalized.replace('.', '_')}"
+    payload = {
+        "ticker": normalized,
+        "trade_date": trade_date,
+        "model": model_name,
+        "decision": summary,
+        "data_source": signal["data_source"],
+        "signal": signal["signal"],
+        "price": signal["price"],
+        "sma_fast": signal["sma_fast"],
+        "sma_slow": signal["sma_slow"],
+    }
+    (base.with_suffix(".json")).write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    (base.with_suffix(".md")).write_text(
+        "\n".join(
+            [
+                "# A-share Local Analysis",
+                "",
+                f"- ticker: {normalized}",
+                f"- trade_date: {trade_date}",
+                f"- model: {model_name}",
+                f"- data_source: {signal['data_source']}",
+                "",
+                "## summary",
+                "",
+                summary,
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    return {
+        "symbol": normalized,
+        "trade_date": trade_date,
+        "summary": summary,
+        "model": model_name,
+        "result_path": str(base.with_suffix(".json")),
+        "data_source": signal["data_source"],
+    }
+

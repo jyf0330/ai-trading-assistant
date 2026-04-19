@@ -49,6 +49,28 @@ class ShellActionsTest(unittest.TestCase):
         self.assertIn("偏多，关注高波动风险", response.text)
         self.assertIn("qwen3.6:35b-a3b-q4_K_M", response.text)
 
+    @patch("app_shell.main.run_a_share_analysis")
+    @patch("app_shell.main.run_tradingagents_analysis")
+    def test_analysis_run_uses_a_share_path(self, mock_run_tradingagents_analysis, mock_run_a_share_analysis) -> None:
+        mock_run_a_share_analysis.return_value = {
+            "symbol": "600519.SH",
+            "trade_date": "2026-04-19",
+            "summary": "A股本地分析：偏中性",
+            "model": "qwen3.6:35b-a3b-q4_K_M",
+            "result_path": "/tmp/600519.json",
+        }
+
+        response = self.client.post(
+            "/analysis/run",
+            data={"symbol": "600519", "trade_date": "2026-04-19"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        mock_run_a_share_analysis.assert_called_once()
+        mock_run_tradingagents_analysis.assert_not_called()
+        self.assertIn("600519.SH", response.text)
+        self.assertIn("A股本地分析：偏中性", response.text)
+
 
 if __name__ == "__main__":
     unittest.main()
