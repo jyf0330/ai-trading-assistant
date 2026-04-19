@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}股票分析 - AI Trading Assistant Shell{% endblock %}
+{% block content %}
+<section class="hero">
+  <h2>股票分析</h2>
+  <p>这一页先展示 <span class="mono">TradingAgents</span> 的本地可读状态和运行前置。没有 API Key 时，先不强行跑分析。</p>
+</section>
+<section class="stats-grid">
+  <article class="card stat-card"><h3>当前状态</h3><p class="stat-value small">{{ snapshot.status if snapshot else 'missing' }}</p></article>
+  <article class="card stat-card"><h3>可用 Key 数</h3><p class="stat-value">{{ enabled_keys|length }}</p></article>
+  <article class="card stat-card"><h3>结果目录</h3><p class="mono small">{{ snapshot.results_dir if snapshot else '' }}</p></article>
+  <article class="card stat-card"><h3>缓存目录</h3><p class="mono small">{{ snapshot.cache_dir if snapshot else '' }}</p></article>
+</section>
+<section class="detail-grid">
+  <article class="card">
+    <h3>TradingAgents 可运行性</h3>
+    {% if enabled_keys %}
+    <p>已检测到这些 Key，可以继续接真实分析：</p>
+    <ul>
+      {% for key in enabled_keys %}<li><span class="mono">{{ key }}</span></li>{% endfor %}
+    </ul>
+    {% else %}
+    <p>当前没有检测到可用的 LLM API Key，所以这一步先只读配置和目录，不跑真实分析。</p>
+    {% endif %}
+    <p class="hint">详情页：<a href="/vendors/tradingagents">查看 TradingAgents 快照</a></p>
+  </article>
+  <article class="card">
+    <h3>最近分析结果文件</h3>
+    {% if recent_result_files %}
+    <ul>
+      {% for path in recent_result_files %}<li><span class="mono">{{ path }}</span></li>{% endfor %}
+    </ul>
+    {% else %}
+    <p>当前还没有结果文件。</p>
+    {% endif %}
+  </article>
+</section>
+<section class="card">
+  <h3>规则验证底座（vectorbt）</h3>
+  {% if example_files %}
+  <p>已经读到 vectorbt 示例文件，可作为后续规则验证入口：</p>
+  <ul>
+    {% for path in example_files %}<li><span class="mono">{{ path }}</span></li>{% endfor %}
+  </ul>
+  {% else %}
+  <p>还没有读到 vectorbt 示例文件。</p>
+  {% endif %}
+</section>
+{% endblock %}

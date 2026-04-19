@@ -1,0 +1,141 @@
+{
+  "generated_at": "2026-04-19T11:45:37.916051+00:00",
+  "vendors": {
+    "journedge": {
+      "vendor": "journedge",
+      "generated_at": "2026-04-19T11:45:36.871593+00:00",
+      "repo": {
+        "exists": true,
+        "path": "/home/ywh/projects/ai-trading-assistant/vendors/journedge",
+        "git_head": "0134954",
+        "git_branch": "main",
+        "file_count": 32329,
+        "readme_path": "/home/ywh/projects/ai-trading-assistant/vendors/journedge/README.md",
+        "readme_excerpt": "# Journedge\n\n<div align=\"center\">\n\n<picture>\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"public/journedge-logo-dark.svg\">\n  <source media=\"(prefers-color-scheme: light)\" srcset=\"public/journedge-logo-light.svg\">\n  <img alt=\"Journedge\" src=\"public/journedge-logo-light.svg\" width=\"240\" />\n</picture>\n\n<br /><br />\n\n![Version](https://img.shields.io/badge/version-3.2.0-4d9fff?style=flat-square)\n![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)\n![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)\n![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript)\n![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)\n![Open Source](https://img.shields.io/badge/open--source-yes-4d9fff?style=flat-square)\n\n**An institutional-grade trading journal built for serious traders.**\n\n[Features](#features) · [Screenshots](#screenshots) · [Getting Started](#getting-started) · [Importing Trades](#importing-trades) · [Analytics](#analytics-engine) · [Roadmap](#roadmap) · [Contributing](#contributing)\n\n</div>\n\n---\n\n## Why Journedge\n\nMost trading journals are either too simple to be useful or locked behind expensive subscriptions. Journedge is built differently.\n\n**Your data stays yours.** Everything runs locally on your machine using SQLite. No cloud sync, no user accounts, no telemetry, no third-party data transfers. Your trade history, journal entries, and performance data never leave your machine.\n\n**Built for serious traders.** Multi-account support, real equity curve tracking from actual starting balance, institutional-grade risk analytics, execution quality analysis, behavioral pattern detection, and a full rich text journal — not just a P&L spreadsheet.\n\n**Open source and auditable.** The entire codebase is available, readable, and open to contribution. You can verify exactly what the application does with your data.\n\n> Journedge was previously released as Tradello (v1.0.0 through v2.3.0). The project has been renamed to better reflect its core purpose — turning your journal into your edge. Full history is preserved in [CHANGELOG.md](./CHANGELOG.md).\n\n---\n\n## Screenshots\n\n### Dashboard\nReal-time stat cards, full trade history table with multi-filter support, and account-scoped P&L tracking.\n\n![Dashboard](docs/screenshots/dashboard.png)\n\n### Journal Editor\nFull-page rich text editor with formatting toolbar, trade stats header, tag managem"
+      },
+      "stats": {
+        "db_found": true,
+        "db_path": "/home/ywh/projects/ai-trading-assistant/vendors/journedge/prisma/prisma/journedge.db",
+        "trade_count": 0,
+        "account_count": 0,
+        "total_pnl": 0,
+        "win_count": 0,
+        "loss_count": 0,
+        "recent_trades": []
+      },
+      "status": "ready",
+      "source_files": [
+        "/home/ywh/projects/ai-trading-assistant/vendors/journedge/prisma/prisma/journedge.db"
+      ]
+    },
+    "tradingagents": {
+      "vendor": "tradingagents",
+      "generated_at": "2026-04-19T11:45:37.431770+00:00",
+      "repo": {
+        "exists": true,
+        "path": "/home/ywh/projects/ai-trading-assistant/vendors/tradingagents",
+        "git_head": "fa4d01c",
+        "git_branch": "main",
+        "file_count": 23824,
+        "readme_path": "/home/ywh/projects/ai-trading-assistant/vendors/tradingagents/README.md",
+        "readme_excerpt": "<p align=\"center\">\n  <img src=\"assets/TauricResearch.png\" style=\"width: 60%; height: auto;\">\n</p>\n\n<div align=\"center\" style=\"line-height: 1;\">\n  <a href=\"https://arxiv.org/abs/2412.20138\" target=\"_blank\"><img alt=\"arXiv\" src=\"https://img.shields.io/badge/arXiv-2412.20138-B31B1B?logo=arxiv\"/></a>\n  <a href=\"https://discord.com/invite/hk9PGKShPK\" target=\"_blank\"><img alt=\"Discord\" src=\"https://img.shields.io/badge/Discord-TradingResearch-7289da?logo=discord&logoColor=white&color=7289da\"/></a>\n  <a href=\"./assets/wechat.png\" target=\"_blank\"><img alt=\"WeChat\" src=\"https://img.shields.io/badge/WeChat-TauricResearch-brightgreen?logo=wechat&logoColor=white\"/></a>\n  <a href=\"https://x.com/TauricResearch\" target=\"_blank\"><img alt=\"X Follow\" src=\"https://img.shields.io/badge/X-TauricResearch-white?logo=x&logoColor=white\"/></a>\n  <br>\n  <a href=\"https://github.com/TauricResearch/\" target=\"_blank\"><img alt=\"Community\" src=\"https://img.shields.io/badge/Join_GitHub_Community-TauricResearch-14C290?logo=discourse\"/></a>\n</div>\n\n<div align=\"center\">\n  <!-- Keep these links. Translations will automatically update with the README. -->\n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=de\">Deutsch</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=es\">Español</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=fr\">français</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=ja\">日本語</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=ko\">한국어</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=pt\">Português</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=ru\">Русский</a> | \n  <a href=\"https://www.readme-i18n.com/TauricResearch/TradingAgents?lang=zh\">中文</a>\n</div>\n\n---\n\n# TradingAgents: Multi-Agents LLM Financial Trading Framework\n\n## News\n- [2026-03] **TradingAgents v0.2.3** released with multi-language support, GPT-5.4 family models, unified model catalog, backtesting date fidelity, and proxy support.\n- [2026-03] **TradingAgents v0.2.2** released with GPT-5.4/Gemini 3.1/Claude 4.6 model coverage, five-tier rating scale, OpenAI Responses API, Anthropic effort control, and cross-platform stability.\n- [2026-02] **TradingAgents v0.2.0** released with multi-provider LLM support (GPT-5.x, Gemini 3.x, Claude 4.x, Grok 4.x) and improved system architecture.\n- [2026-01] **Trading-R1** [Technica"
+      },
+      "status": "blocked_no_key",
+      "env_status": {
+        "OPENAI_API_KEY": false,
+        "GOOGLE_API_KEY": false,
+        "ANTHROPIC_API_KEY": false,
+        "XAI_API_KEY": false,
+        "DEEPSEEK_API_KEY": false,
+        "DASHSCOPE_API_KEY": false,
+        "ZHIPU_API_KEY": false,
+        "OPENROUTER_API_KEY": false,
+        "ALPHA_VANTAGE_API_KEY": false
+      },
+      "results_dir": "/home/ywh/.tradingagents/logs",
+      "cache_dir": "/home/ywh/.tradingagents/cache",
+      "recent_result_files": [],
+      "default_config_excerpt": "import os\n\n_TRADINGAGENTS_HOME = os.path.join(os.path.expanduser(\"~\"), \".tradingagents\")\n\nDEFAULT_CONFIG = {\n    \"project_dir\": os.path.abspath(os.path.join(os.path.dirname(__file__), \".\")),\n    \"results_dir\": os.getenv(\"TRADINGAGENTS_RESULTS_DIR\", os.path.join(_TRADINGAGENTS_HOME, \"logs\")),\n    \"data_cache_dir\": os.getenv(\"TRADINGAGENTS_CACHE_DIR\", os.path.join(_TRADINGAGENTS_HOME, \"cache\")),\n    # LLM settings\n    \"llm_provider\": \"openai\",\n    \"deep_think_llm\": \"gpt-5.4\",\n    \"quick_think_llm\": \"gpt-5.4-mini\",\n    \"backend_url\": \"https://api.openai.com/v1\",\n    # Provider-specific thinking configuration\n    \"google_thinking_level\": None,      # \"high\", \"minimal\", etc.\n    \"openai_reasoning_effort\": None,    # \"medium\", \"high\", \"low\"\n    \"anthropic_effort\": None,           # \"high\", \"medium\", \"low\"\n    # Output language for analyst reports and final decision\n    # Internal agent debate stays in English for reasoning quality\n    \"output_language\": \"English\",\n    # Debate and discussion settings\n    \"max_debate_rounds\": 1,\n    \"max_risk_discuss_rounds\": 1,\n    \"max_recur_limit\": 100,\n    # Data vendor configuration\n    # Category-level configuration (default for all tools in category)\n    \"data_vendors\": {\n        \"core_stock_apis\": \"yfinance\",       # Options: alpha_vantage, yfinance\n        \"technical_indicators\": \"yfinance\",  # Options: alpha_vantage, yfinance\n        \"fundamental_data\": \"yfinance\",      # Options: alpha_vantage, yfinance\n        \"news_data\": \"yfinance\",             # Options: alpha_vantage, yfinance\n    },\n    # Tool-level configuration (takes precedence over category-level)\n    \"tool_vendors\": {\n        # Example: \"get_stock_data\": \"alpha_vantage\",  # Override category default\n    },\n}\n"
+    },
+    "open-paper-trading-mcp": {
+      "vendor": "open-paper-trading-mcp",
+      "generated_at": "2026-04-19T11:45:37.900382+00:00",
+      "repo": {
+        "exists": true,
+        "path": "/home/ywh/projects/ai-trading-assistant/vendors/open-paper-trading-mcp",
+        "git_head": "3c48168",
+        "git_branch": "main",
+        "file_count": 13639,
+        "readme_path": "/home/ywh/projects/ai-trading-assistant/vendors/open-paper-trading-mcp/README.md",
+        "readme_excerpt": "# Open Paper Trading MCP 📈\n\nA comprehensive paper trading simulator with dual interfaces: REST API (FastAPI) and AI agent tools (MCP). Designed for algorithmic trading development, strategy backtesting, options trading simulation, and training AI agents in realistic market environments without financial risk.\n\n## 🎯 Core Capabilities\n\n- **Multi-Asset Trading**: Stocks, options, ETFs, and bonds with specialized implementations\n- **Advanced Options Trading**: Full options chain support with Greeks calculations and 15+ spread strategies\n- **Professional Spread Builder**: Iron Condors, Butterflies, Straddles, Strangles, and advanced multi-leg strategies\n- **Real-time Risk Analysis**: P&L diagrams, breakeven calculations, and win probability analysis\n- **AI Agent Training**: Native MCP interface for training trading agents and LLMs\n- **Production-Ready**: Type-safe, async architecture with comprehensive testing and monitoring\n- **Dual Interface Access**: Both REST API (web clients) and MCP tools (AI agents) access identical functionality\n\n## ✅ Current Status (2025-01-08)\n\n🎉 **PRODUCTION READY QUALITY** - Successfully implemented and deployed dual-server architecture:\n\n- **FastAPI Server** (port 2080): Frontend integration + 49 REST API endpoints operational\n- **MCP Server** (port 2081): Independent MCP server with 43 tools + auto-generated list_tools function\n- **Test Success Rate**: 99.8% (576/581 tests passing, comprehensive journey-based testing)\n- **Code Quality**: 100% ruff compliance, 100% mypy clean, all style violations resolved\n- **Database Integration**: PostgreSQL async operations with proper session management\n- **Service Layer**: TradingService fully integrated via dependency injection\n- **API Documentation**: Auto-generated docs available at `/docs`\n- **Multi-Account Support**: Complete backend implementation with account_id parameter support\n- **Options Trading**: Complete options chain integration with live market data and professional interface\n- **ADK Evaluation Complete**: 42/42 evaluations tested - 100% agent behavior validation with proper multi-step workflows\n- **MCP Tool Reliability**: All 43 tools validated through live agent interaction using real market data\n- **AsyncIO Infrastructure**: Complete resolution of event loop conflicts, 100% test stability\n\n## ✅ Prerequisites\n\nBefore you begin, ensure you have the following installed:\n- **Docker and Docker Compose**: For running the application in a containerized environment.\n- **Python**: V"
+      },
+      "status": "ready",
+      "fastapi_health": {
+        "ok": true,
+        "status_code": 200,
+        "body": "{\"status\":\"healthy\",\"server\":\"fastapi+mcp+react\"}"
+      },
+      "trading_health": {
+        "ok": true,
+        "status_code": 200,
+        "body": "{\"status\":\"healthy\",\"message\":\"Trading system is operational\"}"
+      },
+      "mcp_root": {
+        "ok": true,
+        "status_code": 404,
+        "body": "Not Found"
+      },
+      "portfolio": {
+        "ok": true,
+        "status_code": 500,
+        "body": "{\"detail\":{\"success\":false,\"error\":\"(sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation \\\"accounts\\\" does not exist\\n[SQL: SELECT accounts.id, accounts.user_id, accounts.owner, accounts.cash_balance, accounts.starting_balance, accounts.created_at, accounts.updated_at \\nFROM accounts \\nWHERE accounts.owner = $1::VARCHAR]\\n[parameters: ('UI_TESTER_WES',)]\\n(Background on this error at: https://sqlalche.me/e/20/f405)\",\"account_id\":null,\"message\":\"Failed to retrieve portfolio: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation \\\"accounts\\\" does not exist\\n[SQL: SELECT accounts.id, accounts.user_id, accounts.owner, accounts.cash_balance, accounts.starting_balance, accounts.created_at, accounts.updated_at \\nFROM accounts \\nWHERE accounts.owner = $1::VARCHAR]\\n[parameters: ('UI_TESTER_WES',)]\\n(Background on this error at: https://sqlalche.me/e/20/f405)\"}}"
+      },
+      "docker_compose_excerpt": "services:\n  db:\n    image: postgres:15-alpine\n    restart: unless-stopped\n    volumes:\n      - postgres_data:/var/lib/postgresql/data/\n    environment:\n      - POSTGRES_USER=trading_user\n      - POSTGRES_PASSWORD=trading_password\n      - POSTGRES_DB=trading_db\n    ports:\n      - \"5432:5432\"\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U trading_user -d trading_db\"]\n      interval: 10s\n      timeout: 5s\n      retries: 5\n    networks:\n      - trading-network\n\n  app:\n    build: .\n    restart: unless-stopped\n    ports:\n      - \"2080:2080\"  # FastAPI server\n      - \"2081:2081\"  # MCP server\n    environment:\n      # Database configuration\n      - DATABASE_URL=postgresql+asyncpg://trading_user:trading_password@db:5432/trading_db\n      - DB_HOST=db\n      - DB_PORT=5432\n      - POSTGRES_USER=trading_user\n      - POSTGRES_PASSWORD=trading_password\n      - POSTGRES_DB=trading_db\n      \n      # Application configuration\n      - ENVIRONMENT=production\n      - DEBUG=false\n      - LOG_LEVEL=INFO\n      - SECRET_KEY=your-secret-key-change-this-in-production\n      \n      # MCP server configuration\n      - MCP_SERVER_PORT=2081\n      - MCP_SERVER_HOST=0.0.0.0\n      - MCP_HTTP_PORT=2081\n      - MCP_HTTP_URL=http://localhost:2081\n      \n      # Quote adapter configuration (use robinhood for live data)\n      - QUOTE_ADAPTER_TYPE=robinhood\n      - TEST_SCENARIO=ui_testing\n      - TEST_DATE=2025-07-30\n      \n      # Robinhood configuration (override these in .env file)\n      - ROBINHOOD_USERNAME=${ROBINHOOD_USERNAME:-}\n      - ROBINHOOD_PASSWORD=${ROBINHOOD_PASSWORD:-}\n      - ROBINHOOD_TOKEN_PATH=/app/.tokens\n    volumes:\n      - robinhood_tokens:/app/.tokens\n      - trading_logs:/app/logs\n      - server_logs:/tmp\n      - ./app:/app/app:ro  # Mount app directory for development (read-only)\n    depends_on:\n      db:\n        condition: service_healthy\n    networks:\n      - trading-network\n    healthcheck:\n      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost:2080/health\"]\n      interval: 30s\n      timeout: 10s\n      retries: 3\n\nvolumes:\n  postgres_data:\n  robinhood_tokens:\n  trading_logs:\n  server_logs:\n\nnetworks:\n  trading-network:\n    driver: bridge"
+    },
+    "vectorbt-lab": {
+      "vendor": "vectorbt-lab",
+      "generated_at": "2026-04-19T11:45:37.915810+00:00",
+      "repo": {
+        "exists": true,
+        "path": "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab",
+        "git_head": "993ceca",
+        "git_branch": "master",
+        "file_count": 306,
+        "readme_path": "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/README.md",
+        "readme_excerpt": "<div align=\"center\">\n    <a href=\"https://vectorbt.pro/\" title=\"VectorBT PRO\">\n        <img src=\"https://raw.githubusercontent.com/polakowo/vectorbt/master/docs/docs/assets/logo/header-pro.svg\" />\n    </a>\n</div>\n<div align=\"center\">\n    <a href=\"https://vectorbt.dev/\" title=\"vectorbt\">\n        <img src=\"https://raw.githubusercontent.com/polakowo/vectorbt/master/docs/docs/assets/logo/header.svg\" />\n    </a>\n</div>\n\n<br>\n\n<p align=\"center\">\n    <a href=\"https://pepy.tech/project/vectorbt\" title=\"Downloads\">\n        <img src=\"https://pepy.tech/badge/vectorbt\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/stargazers\" title=\"Stars\">\n        <img src=\"https://img.shields.io/github/stars/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/network/members\" title=\"Forks\">\n        <img src=\"https://img.shields.io/github/forks/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/graphs/contributors\" title=\"Contributors\">\n        <img src=\"https://img.shields.io/github/contributors/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://pypi.org/project/vectorbt\" title=\"PyPI\">\n        <img src=\"https://img.shields.io/pypi/v/vectorbt?color=blueviolet\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/blob/master/LICENSE.md\" title=\"License\">\n        <img src=\"https://img.shields.io/badge/license-Fair%20Code-yellow\" />\n    </a>\n    <a href=\"https://codecov.io/gh/polakowo/vectorbt\" title=\"codecov\">\n        <img src=\"https://codecov.io/gh/polakowo/vectorbt/branch/master/graph/badge.svg?token=YTLNAI7PS3\" />\n    </a>\n    <a href=\"https://vectorbt.dev/\" title=\"Website\">\n        <img src=\"https://img.shields.io/website?url=https://vectorbt.dev/\" />\n    </a>\n    <a href=\"https://mybinder.org/v2/gh/polakowo/vectorbt/HEAD?urlpath=lab\" title=\"Launch Binder\">\n        <img src=\"https://img.shields.io/badge/launch-binder-d6604a\" />\n    </a>\n    <a href=\"https://gitter.im/vectorbt/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge\" title=\"Join the chat\">\n        <img src=\"https://badges.gitter.im/vectorbt.svg\" />\n    </a>\n    <a href=\"https://pypi.org/project/vectorbt\" title=\"Supported Python versions\">\n        <img src=\"https://img.shields.io/pypi/pyversions/vectorbt.svg?logo=python&logoColor=white\" />\n    </a>\n</p>\n\nTest thousands of trading ideas in seconds, analyze portfolios across markets and timeframes, and uncover what works with m"
+      },
+      "status": "ready",
+      "example_files": [
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/BitcoinDMAC.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/MACDVolume.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/PairsTrading.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/PortfolioOptimization.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/PortingBTStrategy.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/StopSignals.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/TelegramSignals.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/TradingSessions.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/WalkForwardOptimization.ipynb",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/dmac_heatmap.gif",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/requirements-backtrader.txt"
+      ],
+      "test_files": [
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/__init__.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_base.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_data.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_generic.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_indicators.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_labels.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_plotting.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_portfolio.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_records.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_returns.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_settings.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_signals.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_utils.py",
+        "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/utils.py"
+      ],
+      "readme_excerpt": "<div align=\"center\">\n    <a href=\"https://vectorbt.pro/\" title=\"VectorBT PRO\">\n        <img src=\"https://raw.githubusercontent.com/polakowo/vectorbt/master/docs/docs/assets/logo/header-pro.svg\" />\n    </a>\n</div>\n<div align=\"center\">\n    <a href=\"https://vectorbt.dev/\" title=\"vectorbt\">\n        <img src=\"https://raw.githubusercontent.com/polakowo/vectorbt/master/docs/docs/assets/logo/header.svg\" />\n    </a>\n</div>\n\n<br>\n\n<p align=\"center\">\n    <a href=\"https://pepy.tech/project/vectorbt\" title=\"Downloads\">\n        <img src=\"https://pepy.tech/badge/vectorbt\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/stargazers\" title=\"Stars\">\n        <img src=\"https://img.shields.io/github/stars/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/network/members\" title=\"Forks\">\n        <img src=\"https://img.shields.io/github/forks/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/graphs/contributors\" title=\"Contributors\">\n        <img src=\"https://img.shields.io/github/contributors/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://pypi.org/project/vectorbt\" title=\"PyPI\">\n        <img src=\"https://img.shields.io/pypi/v/vectorbt?color=blueviolet\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/blob/master/LICENSE.md\" title=\"License\">\n        <img src=\"https://img.shields.io/badge/license-Fair%20Code-yellow\" />\n    </a>\n    <a href=\"https://codecov.io/gh/polakowo/vectorbt\" title=\"codecov\">\n        <img src=\"https://codecov.io/gh/polakowo/vectorbt/branch/master/graph/badge.svg?token=YTLNAI7PS3\" />\n    </a>\n    <a href=\"https://vectorbt.dev/\" title=\"Website\">\n        <img src=\"https://img.shields.io/website?url=https://vectorbt.dev/\" />\n    </a>\n    <a href=\"https://mybinder.org/v2/gh/polakowo/vectorbt/HEAD?urlpath=lab\" title=\"Launch Binder\">\n        <img src=\"https://img.shields.io/badge/launch-binder-d6604a\" />\n    </a>\n    <a href=\"https://gitter.im/vectorbt/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge\" title=\"Join the chat\">\n        <img src=\"https://badges.gitter.im/vectorbt.svg\" />\n    </a>\n    <a href=\"https://pypi.org/project/vectorbt\" title=\"Supported Python versions\">\n        <img src=\"https://img.shields.io/pypi/pyversions/vectorbt.svg?logo=python&logoColor=white\" />\n    </a>\n</p>\n\nTest thousands of trading ideas in seconds, analyze portfolios across markets and timeframes, and uncover what works with m"
+    }
+  },
+  "root": "/home/ywh/projects/ai-trading-assistant"
+}

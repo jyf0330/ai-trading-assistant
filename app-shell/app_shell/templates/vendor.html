@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ vendor }} - AI Trading Assistant Shell{% endblock %}
+{% block content %}
+<section class="detail-head">
+  <div>
+    <h2>{{ vendor }}</h2>
+    {% if snapshot %}
+    <p class="mono">{{ snapshot.generated_at }}</p>
+    {% endif %}
+  </div>
+  <a class="button" href="/">返回首页</a>
+</section>
+{% if error %}
+<p>{{ error }}</p>
+{% elif snapshot %}
+<section class="detail-grid">
+  <article class="card">
+    <h3>JSON 快照</h3>
+    <pre>{{ snapshot | tojson(indent=2) }}</pre>
+  </article>
+  <article class="card">
+    <h3>Markdown 快照</h3>
+    <pre>{{ markdown }}</pre>
+  </article>
+</section>
+{% else %}
+<p>没有找到快照。</p>
+{% endif %}
+{% endblock %}

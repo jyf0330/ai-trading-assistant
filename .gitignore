@@ -1,0 +1,33 @@
+# Third-party vendors are kept as external checkouts
+vendors/
+
+# Local runtimes and package artifacts
+**/.venv/
+**/node_modules/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Local environment files and secrets
+**/.env
+**/.env.*
+!.env.example
+
+# Local databases and generated logs
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+*.log
+/tmp/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+
+# Python packaging artifacts
+**/*.egg-info/
+
+**/build/
+**/dist/
+

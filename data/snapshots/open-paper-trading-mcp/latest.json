@@ -1,0 +1,35 @@
+{
+  "vendor": "open-paper-trading-mcp",
+  "generated_at": "2026-04-19T11:45:37.900382+00:00",
+  "repo": {
+    "exists": true,
+    "path": "/home/ywh/projects/ai-trading-assistant/vendors/open-paper-trading-mcp",
+    "git_head": "3c48168",
+    "git_branch": "main",
+    "file_count": 13639,
+    "readme_path": "/home/ywh/projects/ai-trading-assistant/vendors/open-paper-trading-mcp/README.md",
+    "readme_excerpt": "# Open Paper Trading MCP 📈\n\nA comprehensive paper trading simulator with dual interfaces: REST API (FastAPI) and AI agent tools (MCP). Designed for algorithmic trading development, strategy backtesting, options trading simulation, and training AI agents in realistic market environments without financial risk.\n\n## 🎯 Core Capabilities\n\n- **Multi-Asset Trading**: Stocks, options, ETFs, and bonds with specialized implementations\n- **Advanced Options Trading**: Full options chain support with Greeks calculations and 15+ spread strategies\n- **Professional Spread Builder**: Iron Condors, Butterflies, Straddles, Strangles, and advanced multi-leg strategies\n- **Real-time Risk Analysis**: P&L diagrams, breakeven calculations, and win probability analysis\n- **AI Agent Training**: Native MCP interface for training trading agents and LLMs\n- **Production-Ready**: Type-safe, async architecture with comprehensive testing and monitoring\n- **Dual Interface Access**: Both REST API (web clients) and MCP tools (AI agents) access identical functionality\n\n## ✅ Current Status (2025-01-08)\n\n🎉 **PRODUCTION READY QUALITY** - Successfully implemented and deployed dual-server architecture:\n\n- **FastAPI Server** (port 2080): Frontend integration + 49 REST API endpoints operational\n- **MCP Server** (port 2081): Independent MCP server with 43 tools + auto-generated list_tools function\n- **Test Success Rate**: 99.8% (576/581 tests passing, comprehensive journey-based testing)\n- **Code Quality**: 100% ruff compliance, 100% mypy clean, all style violations resolved\n- **Database Integration**: PostgreSQL async operations with proper session management\n- **Service Layer**: TradingService fully integrated via dependency injection\n- **API Documentation**: Auto-generated docs available at `/docs`\n- **Multi-Account Support**: Complete backend implementation with account_id parameter support\n- **Options Trading**: Complete options chain integration with live market data and professional interface\n- **ADK Evaluation Complete**: 42/42 evaluations tested - 100% agent behavior validation with proper multi-step workflows\n- **MCP Tool Reliability**: All 43 tools validated through live agent interaction using real market data\n- **AsyncIO Infrastructure**: Complete resolution of event loop conflicts, 100% test stability\n\n## ✅ Prerequisites\n\nBefore you begin, ensure you have the following installed:\n- **Docker and Docker Compose**: For running the application in a containerized environment.\n- **Python**: V"
+  },
+  "status": "ready",
+  "fastapi_health": {
+    "ok": true,
+    "status_code": 200,
+    "body": "{\"status\":\"healthy\",\"server\":\"fastapi+mcp+react\"}"
+  },
+  "trading_health": {
+    "ok": true,
+    "status_code": 200,
+    "body": "{\"status\":\"healthy\",\"message\":\"Trading system is operational\"}"
+  },
+  "mcp_root": {
+    "ok": true,
+    "status_code": 404,
+    "body": "Not Found"
+  },
+  "portfolio": {
+    "ok": true,
+    "status_code": 500,
+    "body": "{\"detail\":{\"success\":false,\"error\":\"(sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation \\\"accounts\\\" does not exist\\n[SQL: SELECT accounts.id, accounts.user_id, accounts.owner, accounts.cash_balance, accounts.starting_balance, accounts.created_at, accounts.updated_at \\nFROM accounts \\nWHERE accounts.owner = $1::VARCHAR]\\n[parameters: ('UI_TESTER_WES',)]\\n(Background on this error at: https://sqlalche.me/e/20/f405)\",\"account_id\":null,\"message\":\"Failed to retrieve portfolio: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation \\\"accounts\\\" does not exist\\n[SQL: SELECT accounts.id, accounts.user_id, accounts.owner, accounts.cash_balance, accounts.starting_balance, accounts.created_at, accounts.updated_at \\nFROM accounts \\nWHERE accounts.owner = $1::VARCHAR]\\n[parameters: ('UI_TESTER_WES',)]\\n(Background on this error at: https://sqlalche.me/e/20/f405)\"}}"
+  },
+  "docker_compose_excerpt": "services:\n  db:\n    image: postgres:15-alpine\n    restart: unless-stopped\n    volumes:\n      - postgres_data:/var/lib/postgresql/data/\n    environment:\n      - POSTGRES_USER=trading_user\n      - POSTGRES_PASSWORD=trading_password\n      - POSTGRES_DB=trading_db\n    ports:\n      - \"5432:5432\"\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U trading_user -d trading_db\"]\n      interval: 10s\n      timeout: 5s\n      retries: 5\n    networks:\n      - trading-network\n\n  app:\n    build: .\n    restart: unless-stopped\n    ports:\n      - \"2080:2080\"  # FastAPI server\n      - \"2081:2081\"  # MCP server\n    environment:\n      # Database configuration\n      - DATABASE_URL=postgresql+asyncpg://trading_user:trading_password@db:5432/trading_db\n      - DB_HOST=db\n      - DB_PORT=5432\n      - POSTGRES_USER=trading_user\n      - POSTGRES_PASSWORD=trading_password\n      - POSTGRES_DB=trading_db\n      \n      # Application configuration\n      - ENVIRONMENT=production\n      - DEBUG=false\n      - LOG_LEVEL=INFO\n      - SECRET_KEY=your-secret-key-change-this-in-production\n      \n      # MCP server configuration\n      - MCP_SERVER_PORT=2081\n      - MCP_SERVER_HOST=0.0.0.0\n      - MCP_HTTP_PORT=2081\n      - MCP_HTTP_URL=http://localhost:2081\n      \n      # Quote adapter configuration (use robinhood for live data)\n      - QUOTE_ADAPTER_TYPE=robinhood\n      - TEST_SCENARIO=ui_testing\n      - TEST_DATE=2025-07-30\n      \n      # Robinhood configuration (override these in .env file)\n      - ROBINHOOD_USERNAME=${ROBINHOOD_USERNAME:-}\n      - ROBINHOOD_PASSWORD=${ROBINHOOD_PASSWORD:-}\n      - ROBINHOOD_TOKEN_PATH=/app/.tokens\n    volumes:\n      - robinhood_tokens:/app/.tokens\n      - trading_logs:/app/logs\n      - server_logs:/tmp\n      - ./app:/app/app:ro  # Mount app directory for development (read-only)\n    depends_on:\n      db:\n        condition: service_healthy\n    networks:\n      - trading-network\n    healthcheck:\n      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost:2080/health\"]\n      interval: 30s\n      timeout: 10s\n      retries: 3\n\nvolumes:\n  postgres_data:\n  robinhood_tokens:\n  trading_logs:\n  server_logs:\n\nnetworks:\n  trading-network:\n    driver: bridge"
+}

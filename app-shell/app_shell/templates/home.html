@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}首页 - AI Trading Assistant Shell{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="mono">Root: {{ root }}</p>
+  <p>这个壳工程优先读取 4 个 vendor 的本地文件、数据库、配置和可访问接口，并统一写入 <span class="mono">data/snapshots/</span>。</p>
+  <div class="action-row">
+    <a class="button" href="/records">进入交易记录</a>
+    <a class="button alt" href="/analysis">进入股票分析</a>
+    <a class="button warm" href="/paper">进入模拟盘</a>
+  </div>
+</section>
+<section class="grid">
+  {% for vendor in vendors %}
+  {% set snapshot = snapshots.get(vendor) %}
+  <article class="card">
+    <div class="card-head">
+      <h2>{{ vendor }}</h2>
+      <span class="badge {{ (snapshot.status if snapshot else 'missing') if snapshot else 'missing' }}">{{ snapshot.status if snapshot else 'missing' }}</span>
+    </div>
+    {% if snapshot %}
+    <p class="mono">{{ snapshot.generated_at }}</p>
+    <p>路径：<span class="mono">{{ snapshot.repo.path if snapshot.repo else '' }}</span></p>
+    <p>Git：<span class="mono">{{ snapshot.repo.git_head if snapshot.repo else '' }}</span></p>
+    {% if vendor == 'journedge' %}
+    <p>交易数：{{ snapshot.stats.trade_count }}，账户数：{{ snapshot.stats.account_count }}，总盈亏：{{ snapshot.stats.total_pnl }}</p>
+    {% elif vendor == 'tradingagents' %}
+    <p>结果目录：<span class="mono">{{ snapshot.results_dir }}</span></p>
+    <p>已检测 API Key 数：{{ snapshot.env_status.values() | select('equalto', true) | list | length }}</p>
+    {% elif vendor == 'open-paper-trading-mcp' %}
+    <p>FastAPI：{{ snapshot.fastapi_health.status_code if snapshot.fastapi_health and snapshot.fastapi_health.ok else 'unreachable' }}</p>
+    <p>MCP：{{ snapshot.mcp_root.status_code if snapshot.mcp_root and snapshot.mcp_root.ok else 'unreachable' }}</p>
+    {% elif vendor == 'vectorbt-lab' %}
+    <p>示例文件：{{ snapshot.example_files | length }}，测试文件：{{ snapshot.test_files | length }}</p>
+    {% endif %}
+    <div class="link-row">
+      <a class="button" href="/vendors/{{ vendor }}">查看详情</a>
+    </div>
+    {% else %}
+    <p>还没有快照。</p>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

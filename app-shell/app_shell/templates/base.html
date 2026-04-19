@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}AI Trading Assistant Shell{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>AI Trading Assistant Shell</h1>
+      <p>先读本地仓库与快照，不先深改第三方系统。</p>
+    </div>
+    <nav>
+      <a href="/">首页</a>
+      <a href="/records">交易记录</a>
+      <a href="/analysis">股票分析</a>
+      <a href="/paper">模拟盘</a>
+      <a href="/refresh">刷新快照</a>
+      <a href="/api/snapshots">API</a>
+    </nav>
+  </header>
+  <main class="page">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
