@@ -3,7 +3,8 @@
 {% block content %}
 <section class="hero">
   <h2>交易记录</h2>
-  <p>当前优先读取 <span class="mono">Journedge</span> 的本地 SQLite 和快照，不重写它的原生录入界面。</p>
+  <p>当前优先读取 <span class="mono">Journedge</span> 的本地导出结果，只有导出不存在时才退回原始快照。</p>
+  <p class="mono">{{ exported.db_path if exported else snapshot.repo.path }}</p>
 </section>
 <section class="stats-grid">
   <article class="card stat-card"><h3>交易数</h3><p class="stat-value">{{ stats.trade_count if stats else 0 }}</p></article>
@@ -11,32 +12,54 @@
   <article class="card stat-card"><h3>总盈亏</h3><p class="stat-value">{{ stats.total_pnl if stats else 0 }}</p></article>
   <article class="card stat-card"><h3>胜 / 负</h3><p class="stat-value">{{ stats.win_count if stats else 0 }} / {{ stats.loss_count if stats else 0 }}</p></article>
 </section>
-<section class="card">
-  <div class="card-head"><h3>最近交易</h3><span class="mono">{{ snapshot.repo.path if snapshot and snapshot.repo else '' }}</span></div>
-  {% if recent_trades %}
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr><th>日期</th><th>代码</th><th>方向</th><th>类型</th><th>数量</th><th>盈亏</th><th>状态</th></tr>
-      </thead>
-      <tbody>
-        {% for trade in recent_trades %}
-        <tr>
-          <td>{{ trade.date }}</td>
-          <td>{{ trade.symbol }}</td>
-          <td>{{ trade.direction }}</td>
-          <td>{{ trade.type }}</td>
-          <td>{{ trade.quantity }}</td>
-          <td>{{ trade.pnl }}</td>
-          <td>{{ trade.status }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% else %}
-  <p>当前库里还没有交易记录。你可以继续在 Journedge 原生界面里导入或手工补录。</p>
-  {% endif %}
-  <p class="hint">原生仓库详情页：<a href="/vendors/journedge">查看 Journedge 快照</a></p>
+<section class="detail-grid">
+  <article class="card">
+    <div class="card-head"><h3>最近交易</h3><span class="mono">导出优先</span></div>
+    {% if recent_trades %}
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>日期</th><th>代码</th><th>方向</th><th>类型</th><th>数量</th><th>盈亏</th><th>状态</th><th>标签</th></tr>
+        </thead>
+        <tbody>
+          {% for trade in recent_trades %}
+          <tr>
+            <td>{{ trade.date }}</td>
+            <td>{{ trade.symbol }}</td>
+            <td>{{ trade.direction }}</td>
+            <td>{{ trade.type }}</td>
+            <td>{{ trade.quantity }}</td>
+            <td>{{ trade.pnl }}</td>
+            <td>{{ trade.status }}</td>
+            <td>{{ trade.tags_list | join(', ') if trade.tags_list else '-' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>当前库里还没有交易记录。你可以继续在 Journedge 原生界面里导入或手工补录。</p>
+    {% endif %}
+  </article>
+  <article class="card">
+    <h3>账户与标签</h3>
+    <h4>账户</h4>
+    {% if accounts %}
+    <ul>
+      {% for account in accounts %}<li>{{ account.name }} / {{ account.broker }} / {{ account.initialBalance }} {{ account.currency }}</li>{% endfor %}
+    </ul>
+    {% else %}
+    <p>当前没有账户。</p>
+    {% endif %}
+    <h4>标签频率</h4>
+    {% if tag_frequency %}
+    <ul>
+      {% for item in tag_frequency %}<li>{{ item.name }}: {{ item.count }}</li>{% endfor %}
+    </ul>
+    {% else %}
+    <p>当前没有标签统计。</p>
+    {% endif %}
+    <p class="hint">你也可以单独运行 <span class="mono">./scripts/export-journedge.sh</span> 生成最新导出文件。</p>
+  </article>
 </section>
 {% endblock %}

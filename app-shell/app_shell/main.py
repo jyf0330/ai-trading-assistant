@@ -11,7 +11,9 @@ from fastapi.templating import Jinja2Templates
 
 from .collectors import collect_all
 from .config import ROOT, SNAPSHOT_PATHS, VENDOR_NAMES
+from .journedge_export import load_journedge_export
 from .local_ops import (
+    build_behavior_profile,
     list_analysis_runs,
     load_local_paper_account,
     local_paper_summary,
@@ -56,6 +58,34 @@ def compact_paths(paths: list[str], limit: int = 8) -> list[str]:
     return paths[:limit] if paths else []
 
 
+def load_exported_journedge() -> dict[str, Any]:
+    export_path = ROOT / 'data' / 'exports' / 'journedge' / 'latest.json'
+    exported = load_json(export_path)
+    if exported:
+        return exported
+    return load_journedge_export()
+
+
+def build_records_context() -> dict[str, Any]:
+    snapshot = load_snapshot('journedge') or {}
+    exported = load_exported_journedge()
+    summary = exported.get('summary', {})
+    return {
+        'snapshot': snapshot,
+        'exported': exported,
+        'stats': {
+            'trade_count': summary.get('trade_count', 0),
+            'account_count': summary.get('account_count', 0),
+            'total_pnl': summary.get('total_pnl', 0),
+            'win_count': summary.get('win_count', 0),
+            'loss_count': summary.get('loss_count', 0),
+        },
+        'recent_trades': exported.get('recent_trades', [])[:20],
+        'accounts': exported.get('accounts', []),
+        'tag_frequency': summary.get('tag_frequency', [])[:10],
+    }
+
+
 def build_analysis_context() -> dict[str, Any]:
     snapshot = load_snapshot('tradingagents') or {}
     vectorbt_snapshot = load_snapshot('vectorbt-lab') or {}
@@ -92,11 +122,19 @@ def build_paper_context() -> dict[str, Any]:
     }
 
 
+def build_behavior_context() -> dict[str, Any]:
+    profile = build_behavior_profile()
+    return {
+        'profile': profile,
+    }
+
+
 @app.get('/', response_class=HTMLResponse)
 def home(request: Request) -> HTMLResponse:
     snapshots = load_snapshots()
     local_paper = local_paper_summary(load_local_paper_account())
     analysis_runs = list_analysis_runs()
+    behavior = build_behavior_profile()
     return templates.TemplateResponse(
         request,
         'home.html',
@@ -106,23 +144,21 @@ def home(request: Request) -> HTMLResponse:
             'root': str(ROOT),
             'local_paper': local_paper,
             'analysis_runs_count': len(analysis_runs),
+            'behavior_event_count': behavior['behavior_event_count'],
         },
     )
 
 
 @app.get('/records', response_class=HTMLResponse)
 def records(request: Request) -> HTMLResponse:
-    snapshot = load_snapshot('journedge') or {}
-    stats = snapshot.get('stats', {})
-    return templates.TemplateResponse(
-        request,
-        'records.html',
-        {
-            'snapshot': snapshot,
-            'stats': stats,
-            'recent_trades': stats.get('recent_trades', []),
-        },
-    )
+    context = build_records_context()
+    return templates.TemplateResponse(request, 'records.html', context)
+
+
+@app.get('/behavior', response_class=HTMLResponse)
+def behavior(request: Request) -> HTMLResponse:
+    context = build_behavior_context()
+    return templates.TemplateResponse(request, 'behavior.html', context)
 
 
 @app.get('/analysis', response_class=HTMLResponse)
@@ -229,4 +265,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-

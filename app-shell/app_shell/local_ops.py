@@ -6,6 +6,7 @@ import math
 import random
 import re
 import subprocess
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -14,6 +15,7 @@ import httpx
 import yfinance as yf
 
 from .config import ROOT
+from .journedge_export import load_journedge_export
 
 LOCAL_DATA_DIR = ROOT / "data" / "shell"
 LOCAL_PAPER_PATH = LOCAL_DATA_DIR / "paper_account.json"
@@ -427,3 +429,50 @@ def run_a_share_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
         "data_source": signal["data_source"],
     }
 
+
+
+
+def build_behavior_profile() -> dict[str, Any]:
+    export = load_journedge_export()
+    account = load_local_paper_account()
+    orders = account.get("orders", [])
+
+    symbol_counter = Counter(order.get("symbol", "UNKNOWN") for order in orders)
+    action_counter = Counter(order.get("action", "unknown") for order in orders)
+    source_counter = Counter(order.get("data_source", "unknown") for order in orders)
+
+    a_share_events = sum(1 for order in orders if is_a_share_symbol(order.get("symbol", "")))
+    us_events = sum(1 for order in orders if order.get("symbol") and not is_a_share_symbol(order.get("symbol", "")))
+
+    suggestions: list[str] = []
+    if export["summary"]["trade_count"] < 5:
+        suggestions.append("真实交易记录样本还少，先继续积累导入/补录数据，再做更有说服力的习惯判断。")
+    if orders and action_counter.get("hold", 0) == len(orders):
+        suggestions.append("你当前更多是在观察信号而不是执行交易，说明你偏谨慎，适合先把入场规则写得更明确。")
+    if source_counter.get("synthetic", 0) > 0:
+        suggestions.append("当前部分行为分析仍建立在 synthetic 回退数据上，结论更适合用来练流程，不适合当真实市场结论。")
+    if a_share_events > us_events and a_share_events > 0:
+        suggestions.append("你最近更关注 A 股标的，后续应优先把 A 股真实数据源稳定下来。")
+    if symbol_counter:
+        top_symbol, top_count = symbol_counter.most_common(1)[0]
+        if top_count >= 2:
+            suggestions.append(f"你反复关注 {top_symbol}，说明你有明显的主观察标的习惯，可以围绕它建立固定复盘模板。")
+    if not suggestions:
+        suggestions.append("当前样本还少，继续积累行为数据后再看更细的习惯偏差。")
+
+    return {
+        "generated_at": _now_iso(),
+        "journedge_trade_count": export["summary"]["trade_count"],
+        "journedge_total_pnl": export["summary"]["total_pnl"],
+        "behavior_event_count": len(orders),
+        "a_share_event_count": a_share_events,
+        "us_event_count": us_events,
+        "top_symbols": [
+            {"symbol": symbol, "count": count}
+            for symbol, count in symbol_counter.most_common(5)
+        ],
+        "action_breakdown": dict(action_counter),
+        "data_source_breakdown": dict(source_counter),
+        "suggestions": suggestions,
+        "recent_behavior_events": list(reversed(orders))[:20],
+    }

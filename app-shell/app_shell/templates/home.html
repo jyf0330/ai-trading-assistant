@@ -6,6 +6,7 @@
   <p>这个壳工程优先读取 4 个 vendor 的本地文件、数据库、配置和可访问接口，并统一写入 <span class="mono">data/snapshots/</span>。</p>
   <div class="action-row">
     <a class="button" href="/records">进入交易记录</a>
+    <a class="button alt" href="/behavior">进入行为画像</a>
     <a class="button alt" href="/analysis">进入股票分析</a>
     <a class="button warm" href="/paper">进入模拟盘</a>
   </div>
@@ -15,6 +16,7 @@
   <article class="card stat-card"><h3>本地规则盈亏</h3><p class="stat-value">{{ local_paper.pnl }}</p></article>
   <article class="card stat-card"><h3>本地持仓数</h3><p class="stat-value">{{ local_paper.positions_count }}</p></article>
   <article class="card stat-card"><h3>本地分析结果数</h3><p class="stat-value">{{ analysis_runs_count }}</p></article>
+  <article class="card stat-card"><h3>行为事件数</h3><p class="stat-value">{{ behavior_event_count }}</p></article>
 </section>
 <section class="grid">
   {% for vendor in vendors %}

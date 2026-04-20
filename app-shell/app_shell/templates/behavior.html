@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}行为画像 - AI Trading Assistant Shell{% endblock %}
+{% block content %}
+<section class="hero">
+  <h2>行为画像 / 操盘习惯分析</h2>
+  <p>这一页把本地规则账户的操作行为和 Journedge 的真实交易记录汇总成一个轻量画像，帮助你先看模式，再决定下一步是否让 AI 深度复盘。</p>
+</section>
+<section class="stats-grid">
+  <article class="card stat-card"><h3>行为事件数</h3><p class="stat-value">{{ profile.behavior_event_count }}</p></article>
+  <article class="card stat-card"><h3>真实交易数</h3><p class="stat-value">{{ profile.journedge_trade_count }}</p></article>
+  <article class="card stat-card"><h3>A股事件数</h3><p class="stat-value">{{ profile.a_share_event_count }}</p></article>
+  <article class="card stat-card"><h3>美股事件数</h3><p class="stat-value">{{ profile.us_event_count }}</p></article>
+</section>
+<section class="detail-grid">
+  <article class="card">
+    <h3>行为模式</h3>
+    <h4>关注最多的标的</h4>
+    {% if profile.top_symbols %}
+    <ul>
+      {% for item in profile.top_symbols %}<li>{{ item.symbol }}: {{ item.count }}</li>{% endfor %}
+    </ul>
+    {% else %}
+    <p>当前没有足够的行为样本。</p>
+    {% endif %}
+    <h4>动作分布</h4>
+    <pre>{{ profile.action_breakdown | tojson(indent=2) }}</pre>
+    <h4>数据来源分布</h4>
+    <pre>{{ profile.data_source_breakdown | tojson(indent=2) }}</pre>
+  </article>
+  <article class="card">
+    <h3>辅助建议</h3>
+    <ul>
+      {% for tip in profile.suggestions %}<li>{{ tip }}</li>{% endfor %}
+    </ul>
+  </article>
+</section>
+<section class="card">
+  <h3>最近行为事件</h3>
+  {% if profile.recent_behavior_events %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>时间</th><th>代码</th><th>信号</th><th>动作</th><th>数据源</th><th>说明</th></tr></thead>
+      <tbody>
+        {% for item in profile.recent_behavior_events %}
+        <tr>
+          <td>{{ item.timestamp }}</td>
+          <td>{{ item.symbol }}</td>
+          <td>{{ item.signal }}</td>
+          <td>{{ item.action }}</td>
+          <td>{{ item.data_source }}</td>
+          <td>{{ item.message }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>当前还没有行为事件。</p>
+  {% endif %}
+</section>
+{% endblock %}
