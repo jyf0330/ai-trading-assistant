@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 TICKER="${1:-AAPL}"
 TRADE_DATE="${2:-$(date +%F)}"
 MODEL_NAME="${TRADINGAGENTS_OLLAMA_MODEL:-qwen3.6:35b-a3b-q4_K_M}"
-RESULT_DIR="/home/ywh/projects/ai-trading-assistant/data/snapshots/tradingagents/runs"
+RESULT_DIR="$PROJECT_ROOT/data/snapshots/tradingagents/runs"
 mkdir -p "$RESULT_DIR"
 
-/home/ywh/projects/ai-trading-assistant/scripts/start-ollama-wsl-proxy.sh
+"$PROJECT_ROOT/scripts/start-ollama-wsl-proxy.sh"
 
-cd /home/ywh/projects/ai-trading-assistant/vendors/tradingagents
+cd "$PROJECT_ROOT/vendors/tradingagents"
 source .venv/bin/activate
 export OPENAI_API_KEY=dummy
 export TA_SYMBOL="$TICKER"

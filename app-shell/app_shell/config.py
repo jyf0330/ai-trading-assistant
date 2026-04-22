@@ -1,6 +1,7 @@
+import os
 from pathlib import Path
 
-ROOT = Path("/home/ywh/projects/ai-trading-assistant")
+ROOT = Path(os.environ.get("AI_TRADING_ASSISTANT_ROOT", Path(__file__).resolve().parents[2]))
 VENDORS_DIR = ROOT / "vendors"
 SNAPSHOTS_DIR = ROOT / "data" / "snapshots"
 

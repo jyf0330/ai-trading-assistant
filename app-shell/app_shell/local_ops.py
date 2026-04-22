@@ -3,8 +3,11 @@ from __future__ import annotations
 import io
 import json
 import math
+import os
 import random
 import re
+import shlex
+import shutil
 import subprocess
 from collections import Counter
 from datetime import datetime, timedelta, timezone
@@ -291,11 +294,7 @@ def run_ma_strategy(symbol: str, allocation: float = 1000.0) -> dict[str, Any]:
 def run_tradingagents_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
     _ensure_dirs()
     normalized = normalize_symbol(symbol)
-    cmd = [
-        "/home/ywh/projects/ai-trading-assistant/scripts/run-tradingagents-local.sh",
-        normalized,
-        trade_date,
-    ]
+    cmd = _build_tradingagents_command(normalized, trade_date)
     result = subprocess.run(
         cmd,
         cwd=str(ROOT),
@@ -317,6 +316,45 @@ def run_tradingagents_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
         "model": "qwen3.6:35b-a3b-q4_K_M",
         "result_path": result_path,
     }
+
+
+def _windows_wsl_project_root() -> str:
+    configured = os.environ.get("AI_TRADING_ASSISTANT_WSL_ROOT")
+    if configured:
+        return configured
+    result = subprocess.run(
+        ["wsl.exe", "wslpath", "-a", str(ROOT)],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Windows 环境下无法解析 WSL 项目路径。请设置 AI_TRADING_ASSISTANT_WSL_ROOT 指向 WSL 中的仓库目录。"
+        )
+    return result.stdout.strip()
+
+
+def _build_tradingagents_command(symbol: str, trade_date: str) -> list[str]:
+    script_path = ROOT / "scripts" / "run-tradingagents-local.sh"
+    if os.name == "nt":
+        if not shutil.which("wsl.exe"):
+            raise RuntimeError(
+                "Windows 环境需要 WSL 才能运行 TradingAgents 分析。请先安装 WSL，或设置可替代的分析入口。"
+            )
+        wsl_root = _windows_wsl_project_root()
+        quoted_root = shlex.quote(wsl_root)
+        quoted_symbol = shlex.quote(symbol)
+        quoted_date = shlex.quote(trade_date)
+        return [
+            "wsl.exe",
+            "bash",
+            "-lc",
+            f"cd {quoted_root} && ./scripts/run-tradingagents-local.sh {quoted_symbol} {quoted_date}",
+        ]
+    if shutil.which("bash"):
+        return ["bash", str(script_path), symbol, trade_date]
+    return [str(script_path), symbol, trade_date]
 
 
 def _heuristic_a_share_summary(signal: dict[str, Any]) -> str:
