@@ -1,27 +1,25 @@
 {
   "vendor": "journedge",
-  "generated_at": "2026-04-19T15:45:42.280631+00:00",
+  "generated_at": "2026-04-23T07:17:30.630180+00:00",
   "repo": {
-    "exists": true,
-    "path": "/home/ywh/projects/ai-trading-assistant/vendors/journedge",
-    "git_head": "0134954",
-    "git_branch": "main",
-    "file_count": 32329,
-    "readme_path": "/home/ywh/projects/ai-trading-assistant/vendors/journedge/README.md",
-    "readme_excerpt": "# Journedge\n\n<div align=\"center\">\n\n<picture>\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"public/journedge-logo-dark.svg\">\n  <source media=\"(prefers-color-scheme: light)\" srcset=\"public/journedge-logo-light.svg\">\n  <img alt=\"Journedge\" src=\"public/journedge-logo-light.svg\" width=\"240\" />\n</picture>\n\n<br /><br />\n\n![Version](https://img.shields.io/badge/version-3.2.0-4d9fff?style=flat-square)\n![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)\n![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)\n![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript)\n![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)\n![Open Source](https://img.shields.io/badge/open--source-yes-4d9fff?style=flat-square)\n\n**An institutional-grade trading journal built for serious traders.**\n\n[Features](#features) · [Screenshots](#screenshots) · [Getting Started](#getting-started) · [Importing Trades](#importing-trades) · [Analytics](#analytics-engine) · [Roadmap](#roadmap) · [Contributing](#contributing)\n\n</div>\n\n---\n\n## Why Journedge\n\nMost trading journals are either too simple to be useful or locked behind expensive subscriptions. Journedge is built differently.\n\n**Your data stays yours.** Everything runs locally on your machine using SQLite. No cloud sync, no user accounts, no telemetry, no third-party data transfers. Your trade history, journal entries, and performance data never leave your machine.\n\n**Built for serious traders.** Multi-account support, real equity curve tracking from actual starting balance, institutional-grade risk analytics, execution quality analysis, behavioral pattern detection, and a full rich text journal — not just a P&L spreadsheet.\n\n**Open source and auditable.** The entire codebase is available, readable, and open to contribution. You can verify exactly what the application does with your data.\n\n> Journedge was previously released as Tradello (v1.0.0 through v2.3.0). The project has been renamed to better reflect its core purpose — turning your journal into your edge. Full history is preserved in [CHANGELOG.md](./CHANGELOG.md).\n\n---\n\n## Screenshots\n\n### Dashboard\nReal-time stat cards, full trade history table with multi-filter support, and account-scoped P&L tracking.\n\n![Dashboard](docs/screenshots/dashboard.png)\n\n### Journal Editor\nFull-page rich text editor with formatting toolbar, trade stats header, tag managem"
+    "exists": false,
+    "path": "/Users/macminim4/Documents/New project/jyf0330-repos/ai-trading-assistant-main/vendors/journedge",
+    "git_head": null,
+    "git_branch": null,
+    "file_count": 0,
+    "readme_path": null,
+    "readme_excerpt": null
   },
   "stats": {
-    "db_found": true,
-    "db_path": "/home/ywh/projects/ai-trading-assistant/vendors/journedge/prisma/prisma/journedge.db",
-    "trade_count": 0,
-    "account_count": 0,
-    "total_pnl": 0,
-    "win_count": 0,
-    "loss_count": 0,
+    "db_found": false,
+    "db_path": null,
+    "trade_count": null,
+    "account_count": null,
+    "total_pnl": null,
+    "win_count": null,
+    "loss_count": null,
     "recent_trades": []
   },
-  "status": "ready",
-  "source_files": [
-    "/home/ywh/projects/ai-trading-assistant/vendors/journedge/prisma/prisma/journedge.db"
-  ]
+  "status": "partial",
+  "source_files": []
 }

@@ -1,14 +1,14 @@
 # TradingAgents Snapshot
 
-- Generated: 2026-04-19T15:45:42.488649+00:00
-- Repo: /home/ywh/projects/ai-trading-assistant/vendors/tradingagents
+- Generated: 2026-04-23T07:17:33.301499+00:00
+- Repo: /Users/macminim4/Documents/New project/jyf0330-repos/ai-trading-assistant-main/vendors/tradingagents
 - Git: fa4d01c
-- Status: ready_local_model
-- Results dir: /home/ywh/.tradingagents/logs
-- Cache dir: /home/ywh/.tradingagents/cache
-- Ollama reachable: True
+- Status: blocked_no_key
+- Results dir: /Users/macminim4/.tradingagents/logs
+- Cache dir: /Users/macminim4/.tradingagents/cache
+- Ollama reachable: False
 - Ollama host: http://127.0.0.1:11434
-- Ollama models: qwen3.6:35b-a3b-q4_K_M, qw-14b:latest, deepcoder-14b:latest
+- Ollama models: none
 
 ## API keys detected
 - OPENAI_API_KEY: no

@@ -294,6 +294,7 @@ def run_ma_strategy(symbol: str, allocation: float = 1000.0) -> dict[str, Any]:
 def run_tradingagents_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
     _ensure_dirs()
     normalized = normalize_symbol(symbol)
+    model_name = os.environ.get("TRADINGAGENTS_OLLAMA_MODEL", "gemma4:latest")
     cmd = _build_tradingagents_command(normalized, trade_date)
     result = subprocess.run(
         cmd,
@@ -313,7 +314,7 @@ def run_tradingagents_analysis(symbol: str, trade_date: str) -> dict[str, Any]:
         "symbol": normalized,
         "trade_date": trade_date,
         "summary": summary,
-        "model": "qwen3.6:35b-a3b-q4_K_M",
+        "model": model_name,
         "result_path": result_path,
     }
 

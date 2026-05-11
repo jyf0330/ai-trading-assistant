@@ -1,44 +1,17 @@
 {
   "vendor": "vectorbt-lab",
-  "generated_at": "2026-04-19T15:45:42.695004+00:00",
+  "generated_at": "2026-04-23T07:17:50.402523+00:00",
   "repo": {
-    "exists": true,
-    "path": "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab",
-    "git_head": "993ceca",
-    "git_branch": "master",
-    "file_count": 306,
-    "readme_path": "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/README.md",
-    "readme_excerpt": "<div align=\"center\">\n    <a href=\"https://vectorbt.pro/\" title=\"VectorBT PRO\">\n        <img src=\"https://raw.githubusercontent.com/polakowo/vectorbt/master/docs/docs/assets/logo/header-pro.svg\" />\n    </a>\n</div>\n<div align=\"center\">\n    <a href=\"https://vectorbt.dev/\" title=\"vectorbt\">\n        <img src=\"https://raw.githubusercontent.com/polakowo/vectorbt/master/docs/docs/assets/logo/header.svg\" />\n    </a>\n</div>\n\n<br>\n\n<p align=\"center\">\n    <a href=\"https://pepy.tech/project/vectorbt\" title=\"Downloads\">\n        <img src=\"https://pepy.tech/badge/vectorbt\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/stargazers\" title=\"Stars\">\n        <img src=\"https://img.shields.io/github/stars/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/network/members\" title=\"Forks\">\n        <img src=\"https://img.shields.io/github/forks/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/graphs/contributors\" title=\"Contributors\">\n        <img src=\"https://img.shields.io/github/contributors/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://pypi.org/project/vectorbt\" title=\"PyPI\">\n        <img src=\"https://img.shields.io/pypi/v/vectorbt?color=blueviolet\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/blob/master/LICENSE.md\" title=\"License\">\n        <img src=\"https://img.shields.io/badge/license-Fair%20Code-yellow\" />\n    </a>\n    <a href=\"https://codecov.io/gh/polakowo/vectorbt\" title=\"codecov\">\n        <img src=\"https://codecov.io/gh/polakowo/vectorbt/branch/master/graph/badge.svg?token=YTLNAI7PS3\" />\n    </a>\n    <a href=\"https://vectorbt.dev/\" title=\"Website\">\n        <img src=\"https://img.shields.io/website?url=https://vectorbt.dev/\" />\n    </a>\n    <a href=\"https://mybinder.org/v2/gh/polakowo/vectorbt/HEAD?urlpath=lab\" title=\"Launch Binder\">\n        <img src=\"https://img.shields.io/badge/launch-binder-d6604a\" />\n    </a>\n    <a href=\"https://gitter.im/vectorbt/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge\" title=\"Join the chat\">\n        <img src=\"https://badges.gitter.im/vectorbt.svg\" />\n    </a>\n    <a href=\"https://pypi.org/project/vectorbt\" title=\"Supported Python versions\">\n        <img src=\"https://img.shields.io/pypi/pyversions/vectorbt.svg?logo=python&logoColor=white\" />\n    </a>\n</p>\n\nTest thousands of trading ideas in seconds, analyze portfolios across markets and timeframes, and uncover what works with m"
+    "exists": false,
+    "path": "/Users/macminim4/Documents/New project/jyf0330-repos/ai-trading-assistant-main/vendors/vectorbt-lab",
+    "git_head": null,
+    "git_branch": null,
+    "file_count": 0,
+    "readme_path": null,
+    "readme_excerpt": null
   },
-  "status": "ready",
-  "example_files": [
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/BitcoinDMAC.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/MACDVolume.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/PairsTrading.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/PortfolioOptimization.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/PortingBTStrategy.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/StopSignals.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/TelegramSignals.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/TradingSessions.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/WalkForwardOptimization.ipynb",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/dmac_heatmap.gif",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/examples/requirements-backtrader.txt"
-  ],
-  "test_files": [
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/__init__.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_base.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_data.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_generic.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_indicators.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_labels.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_plotting.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_portfolio.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_records.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_returns.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_settings.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_signals.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/test_utils.py",
-    "/home/ywh/projects/ai-trading-assistant/vendors/vectorbt-lab/tests/utils.py"
-  ],
-  "readme_excerpt": "<div align=\"center\">\n    <a href=\"https://vectorbt.pro/\" title=\"VectorBT PRO\">\n        <img src=\"https://raw.githubusercontent.com/polakowo/vectorbt/master/docs/docs/assets/logo/header-pro.svg\" />\n    </a>\n</div>\n<div align=\"center\">\n    <a href=\"https://vectorbt.dev/\" title=\"vectorbt\">\n        <img src=\"https://raw.githubusercontent.com/polakowo/vectorbt/master/docs/docs/assets/logo/header.svg\" />\n    </a>\n</div>\n\n<br>\n\n<p align=\"center\">\n    <a href=\"https://pepy.tech/project/vectorbt\" title=\"Downloads\">\n        <img src=\"https://pepy.tech/badge/vectorbt\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/stargazers\" title=\"Stars\">\n        <img src=\"https://img.shields.io/github/stars/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/network/members\" title=\"Forks\">\n        <img src=\"https://img.shields.io/github/forks/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/graphs/contributors\" title=\"Contributors\">\n        <img src=\"https://img.shields.io/github/contributors/polakowo/vectorbt?style=flat\" />\n    </a>\n    <a href=\"https://pypi.org/project/vectorbt\" title=\"PyPI\">\n        <img src=\"https://img.shields.io/pypi/v/vectorbt?color=blueviolet\" />\n    </a>\n    <a href=\"https://github.com/polakowo/vectorbt/blob/master/LICENSE.md\" title=\"License\">\n        <img src=\"https://img.shields.io/badge/license-Fair%20Code-yellow\" />\n    </a>\n    <a href=\"https://codecov.io/gh/polakowo/vectorbt\" title=\"codecov\">\n        <img src=\"https://codecov.io/gh/polakowo/vectorbt/branch/master/graph/badge.svg?token=YTLNAI7PS3\" />\n    </a>\n    <a href=\"https://vectorbt.dev/\" title=\"Website\">\n        <img src=\"https://img.shields.io/website?url=https://vectorbt.dev/\" />\n    </a>\n    <a href=\"https://mybinder.org/v2/gh/polakowo/vectorbt/HEAD?urlpath=lab\" title=\"Launch Binder\">\n        <img src=\"https://img.shields.io/badge/launch-binder-d6604a\" />\n    </a>\n    <a href=\"https://gitter.im/vectorbt/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge\" title=\"Join the chat\">\n        <img src=\"https://badges.gitter.im/vectorbt.svg\" />\n    </a>\n    <a href=\"https://pypi.org/project/vectorbt\" title=\"Supported Python versions\">\n        <img src=\"https://img.shields.io/pypi/pyversions/vectorbt.svg?logo=python&logoColor=white\" />\n    </a>\n</p>\n\nTest thousands of trading ideas in seconds, analyze portfolios across markets and timeframes, and uncover what works with m"
+  "status": "missing",
+  "example_files": [],
+  "test_files": [],
+  "readme_excerpt": null
 }

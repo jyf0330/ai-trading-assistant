@@ -5,11 +5,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 TICKER="${1:-AAPL}"
 TRADE_DATE="${2:-$(date +%F)}"
-MODEL_NAME="${TRADINGAGENTS_OLLAMA_MODEL:-qwen3.6:35b-a3b-q4_K_M}"
+MODEL_NAME="${TRADINGAGENTS_OLLAMA_MODEL:-gemma4:latest}"
+OLLAMA_BASE_URL="${TRADINGAGENTS_OLLAMA_BASE_URL:-${OLLAMA_HOST:-http://127.0.0.1:11434}}"
+OLLAMA_BASE_URL="${OLLAMA_BASE_URL%/}"
 RESULT_DIR="$PROJECT_ROOT/data/snapshots/tradingagents/runs"
 mkdir -p "$RESULT_DIR"
 
-"$PROJECT_ROOT/scripts/start-ollama-wsl-proxy.sh"
+if [[ "$OLLAMA_BASE_URL" == "http://127.0.0.1:11434" || "$OLLAMA_BASE_URL" == "http://localhost:11434" ]]; then
+  "$PROJECT_ROOT/scripts/start-ollama-wsl-proxy.sh"
+fi
 
 cd "$PROJECT_ROOT/vendors/tradingagents"
 source .venv/bin/activate
@@ -18,15 +22,19 @@ export TA_SYMBOL="$TICKER"
 export TA_TRADE_DATE="$TRADE_DATE"
 export TA_MODEL_NAME="$MODEL_NAME"
 export TA_RESULT_DIR="$RESULT_DIR"
+export TA_OLLAMA_BASE_URL="$OLLAMA_BASE_URL/v1"
 
-PYTHONPATH=. python - <<'PY'
+PYTHONPATH="$PROJECT_ROOT/vendors/tradingagents:$PROJECT_ROOT" python - <<'PY'
 import json
 import os
 from datetime import datetime
 from pathlib import Path
 
+from scripts.tradingagents_runtime_patch import apply_runtime_patch
 from tradingagents.graph.trading_graph import TradingAgentsGraph
 from tradingagents.default_config import DEFAULT_CONFIG
+
+apply_runtime_patch()
 
 symbol = os.environ['TA_SYMBOL']
 trade_date = os.environ['TA_TRADE_DATE']
@@ -35,7 +43,7 @@ result_dir = os.environ['TA_RESULT_DIR']
 
 config = DEFAULT_CONFIG.copy()
 config['llm_provider'] = 'ollama'
-config['backend_url'] = 'http://127.0.0.1:11434/v1'
+config['backend_url'] = os.environ['TA_OLLAMA_BASE_URL']
 config['deep_think_llm'] = model_name
 config['quick_think_llm'] = model_name
 config['results_dir'] = result_dir
